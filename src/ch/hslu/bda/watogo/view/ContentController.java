@@ -12,7 +12,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import ch.hslu.bda.watogo.Main;
 import ch.hslu.bda.watogo.model.Job;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 public class ContentController {
     @FXML
@@ -27,7 +32,7 @@ public class ContentController {
     private TableColumn<Job, Integer> numberColumn;
     @FXML
     private TableColumn<Job, String> stateColumn;
-
+    
     @FXML
     private ComboBox<String> spiderList;
     @FXML
@@ -40,7 +45,15 @@ public class ContentController {
     private Button refreshBtn;
     @FXML
     private TextArea logArea;
-
+    @FXML
+    private WebView webView;
+    @FXML
+    private TabPane tabPane;
+    @FXML
+    private Tab logTab;
+    
+    private SingleSelectionModel<Tab> selectionModel;
+    
     // Reference to the main application.
     private Main main;
 
@@ -63,11 +76,13 @@ public class ContentController {
         timeColumn.setCellValueFactory(cellData -> cellData.getValue().startTime);
         numberColumn.setCellValueFactory(cellData -> cellData.getValue().numberOfEvents.asObject());
         stateColumn.setCellValueFactory(cellData -> cellData.getValue().state);
+        selectionModel = tabPane.getSelectionModel();
     }
     
     @FXML
     private void showLogButtonPressed() {
         main.displayLog(jobsTable.getSelectionModel().getSelectedItem());
+        selectionModel.select(logTab);
     }
     
     @FXML
@@ -93,4 +108,14 @@ public class ContentController {
     public void addLogLine(String log) {
         logArea.setText(logArea.getText() + log + "\n");
     }
+    
+    public void addText(String text){
+        logArea.setText(text);
+    }
+    
+    public void loadAdminGUI(){
+        WebEngine webEngine = webView.getEngine();
+        webEngine.load("http://localhost:1234");
+    }
+    
 }

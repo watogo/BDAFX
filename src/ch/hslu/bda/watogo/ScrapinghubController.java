@@ -98,13 +98,16 @@ public class ScrapinghubController {
             System.out.println(cmd);
             p = Runtime.getRuntime().exec(cmd);
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String totalS = "";
             while (true) {
                 String s = br.readLine();
                 if (s == null) {
                     break;
                 }
-                contentControl.addLogLine(s);
+                totalS += s+"\r\n";
             }
+            contentControl.addText(totalS); //Add total String to logArea
+            
             //spiderMessageLabel.setText(s);
         } catch (Exception ex) {
             Logger.getLogger(ScrapinghubController.class.getName()).log(Level.SEVERE, null, ex);

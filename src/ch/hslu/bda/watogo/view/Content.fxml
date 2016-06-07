@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.web.WebView?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.hslu.bda.watogo.view.ContentController">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.hslu.bda.watogo.view.ContentController">
    <children>
       <AnchorPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TabPane layoutX="-1.0" layoutY="-1.0" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <TabPane fx:id="tabPane" layoutX="-1.0" layoutY="-1.0" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <tabs>
                 <Tab text="Overview">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" snapToPixel="false">
                            <children>
-                              <SplitPane dividerPositions="0.8617886178861789" layoutX="6.0" layoutY="165.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <SplitPane dividerPositions="0.8" layoutX="6.0" layoutY="165.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <items>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                                        <children>
-                                          <Button fx:id="showLogBtn" layoutX="9.0" layoutY="310.0" mnemonicParsing="false" onAction="#showLogButtonPressed" prefHeight="25.0" prefWidth="160.0" text="Show Log" />
-                                          <TableView fx:id="jobsTable" layoutX="9.0" layoutY="7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="262.0" prefWidth="580.0">
+                                          <TableView fx:id="jobsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="358.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <columns>
                                               <TableColumn fx:id="spiderColumn" prefWidth="154.0" text="Spider" />
                                               <TableColumn fx:id="idColumn" minWidth="0.0" prefWidth="57.0" text="Job ID" />
@@ -33,14 +40,30 @@
                                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                              </columnResizePolicy>
                                           </TableView>
-                                          <Button fx:id="saveBtn" layoutX="9.0" layoutY="279.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="159.0" text="Save Events to DB" />
-                                          <Button fx:id="refreshBtn" layoutX="528.0" layoutY="279.0" mnemonicParsing="false" onAction="#refreshButtonPressed" text="Refresh" />
                                        </children>
                                     </AnchorPane>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="61.0" prefWidth="669.0">
                                        <children>
-                                          <ComboBox fx:id="spiderList" layoutX="14.0" layoutY="12.0" prefHeight="25.0" prefWidth="289.0" promptText="&lt;Select Spider to be scheduled&gt;" />
-                                          <Button fx:id="runBtn" layoutX="432.0" layoutY="12.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="152.0" text="Run Spider now" />
+                                          <HBox alignment="TOP_CENTER" focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="85.0" prefWidth="600.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <VBox prefHeight="85.0" prefWidth="345.0" spacing="5.0">
+                                                   <children>
+                                                      <ComboBox fx:id="spiderList" prefHeight="25.0" prefWidth="220.0" promptText="&lt;Select Spider to be scheduled&gt;" />
+                                                      <Button fx:id="runBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" snapToPixel="false" text="Run Spider now" />
+                                                   </children>
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </VBox>
+                                                <VBox alignment="TOP_RIGHT" prefHeight="85.0" prefWidth="223.0" spacing="5.0">
+                                                   <children>
+                                                      <Button fx:id="refreshBtn" mnemonicParsing="false" onAction="#refreshButtonPressed" prefHeight="25.0" prefWidth="120.0" snapToPixel="false" text="Refresh" />
+                                                      <Button fx:id="showLogBtn" mnemonicParsing="false" onAction="#showLogButtonPressed" prefHeight="25.0" prefWidth="120.0" text="Show Log" />
+                                                      <Button fx:id="saveBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Save Events to DB" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
                                        </children>
                                     </AnchorPane>
                                 </items>
@@ -49,23 +72,20 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab text="Logview">
+                  <Tab fx:id="logTab" text="Logview">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Pane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <TextArea fx:id="logArea" layoutX="14.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="342.0" prefWidth="570.0" />
-                                 </children></Pane>
+                              <TextArea fx:id="logArea" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="421.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab text="Eventeditor">
+                  <Tab onSelectionChanged="#loadAdminGUI" text="Eventeditor">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Pane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <WebView fx:id="webView" prefHeight="421.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                      </content>
