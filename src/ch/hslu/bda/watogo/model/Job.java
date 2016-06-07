@@ -6,9 +6,7 @@
 package ch.hslu.bda.watogo.model;
 
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -31,5 +29,4 @@ public class Job {
         this.numberOfEvents = new SimpleIntegerProperty(numEvents);
         this.state = new SimpleStringProperty(state);
     }
-    
 }

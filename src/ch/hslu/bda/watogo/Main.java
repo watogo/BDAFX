@@ -10,8 +10,8 @@ import ch.hslu.bda.watogo.view.ContentController;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 import javafx.application.Application;
-import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -31,7 +31,9 @@ public class Main extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        this.scrapinghub = new ScrapinghubController("bc2aa25cc40f4ed4b03988e8e0b9e89e", "53883");       
+        
+        this.scrapinghub = new ScrapinghubController("bc2aa25cc40f4ed4b03988e8e0b9e89e", "53883");  
+        
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/BorderPane.fxml"));
         try {
@@ -62,7 +64,9 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-
+    
+  
+    
     /**
      * @param args the command line arguments
      */
@@ -80,5 +84,5 @@ public class Main extends Application {
     
     public void displayLog(Job job) {
         scrapinghub.showLog(contentControl, job);
-    }
+    }    
 }

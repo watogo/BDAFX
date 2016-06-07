@@ -54,6 +54,8 @@ public class ContentController {
     
     private SingleSelectionModel<Tab> selectionModel;
     
+    
+    
     // Reference to the main application.
     private Main main;
 
@@ -90,7 +92,7 @@ public class ContentController {
         jobsTable.setItems(main.getJobs());
         spiderList.setItems(main.getSpiderNames());
     }
-
+    
     /**
      * Is called by the main application to give a reference back to itself.
      * 
@@ -102,11 +104,6 @@ public class ContentController {
         // Add observable list data to the table
         jobsTable.setItems(main.getJobs());
         spiderList.setItems(main.getSpiderNames());
-    }
-    
-    
-    public void addLogLine(String log) {
-        logArea.setText(logArea.getText() + log + "\n");
     }
     
     public void addText(String text){
