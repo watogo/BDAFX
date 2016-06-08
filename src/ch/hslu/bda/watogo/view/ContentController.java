@@ -146,7 +146,6 @@ public class ContentController {
     
     public void loadScrapingHub(){
         WebEngine webEngine = webScrapinhub.getEngine();
-        webEngine.load("https://portia.scrapinghub.com/#/projects/53883");
+        webEngine.load("https://app.scrapinghub.com/p/53883/periodic-jobs?apikey="+setting.apiKey);
     }
-    
 }

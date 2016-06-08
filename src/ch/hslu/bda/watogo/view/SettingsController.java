@@ -1,19 +1,14 @@
 package ch.hslu.bda.watogo.view;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -39,7 +34,15 @@ public class SettingsController implements Initializable {
     private TextField textFieldSerIp;
     @FXML
     private TextField textFieldPort;
-
+    @FXML
+    private TextField textFieldDBName;
+    @FXML
+    private TextField textFieldDBCollection;
+    @FXML
+    private TextField textFieldDBUsername;
+    @FXML
+    private TextField textFieldDBPassword;
+    
     /**
      * Initializes the controller class.
      */
@@ -61,6 +64,10 @@ public class SettingsController implements Initializable {
             textFieldProId.setText(prop.getProperty("projectId"));
             textFieldSerIp.setText(prop.getProperty("serverIp"));
             textFieldPort.setText(prop.getProperty("port"));
+            textFieldDBName.setText(prop.getProperty("dbName"));
+            textFieldDBCollection.setText(prop.getProperty("dbCollection"));
+            textFieldDBUsername.setText(prop.getProperty("dbUsername"));
+            textFieldDBPassword.setText(prop.getProperty("dbPassword"));
 
         } catch (IOException ex) {
             //ex.printStackTrace();
@@ -87,6 +94,11 @@ public class SettingsController implements Initializable {
             prop.setProperty("projectId", textFieldProId.getText());
             prop.setProperty("serverIp", textFieldSerIp.getText());
             prop.setProperty("port", textFieldPort.getText());
+            prop.setProperty("dbName", textFieldDBName.getText());
+            prop.setProperty("dbCollection", textFieldDBCollection.getText());
+            prop.setProperty("dbUsername", textFieldDBUsername.getText());
+            prop.setProperty("dbPassword", textFieldDBPassword.getText());
+            
             prop.store(output, null);
             JOptionPane.showMessageDialog(null,
                 "Erfolgreich gespeichert");

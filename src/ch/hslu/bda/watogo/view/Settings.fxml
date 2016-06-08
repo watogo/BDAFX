@@ -40,13 +40,13 @@
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="134.0" prefWidth="455.0">
                <children>
                   <Label layoutX="14.0" layoutY="18.0" prefHeight="17.0" prefWidth="64.0" text="DB Name" />
-                  <TextField fx:id="textFieldSerIp1" layoutX="76.0" layoutY="14.0" prefHeight="25.0" prefWidth="256.0" />
+                  <TextField fx:id="textFieldDBName" layoutX="76.0" layoutY="14.0" prefHeight="25.0" prefWidth="256.0" />
                   <Label layoutX="14.0" layoutY="52.0" prefHeight="17.0" prefWidth="64.0" text="Collection" />
-                  <TextField fx:id="textFieldSerIp11" layoutX="76.0" layoutY="48.0" prefHeight="25.0" prefWidth="256.0" />
+                  <TextField fx:id="textFieldDBCollection" layoutX="76.0" layoutY="48.0" prefHeight="25.0" prefWidth="256.0" />
                   <Label layoutX="14.0" layoutY="86.0" prefHeight="17.0" prefWidth="64.0" text="Username" />
-                  <TextField fx:id="textFieldSerIp111" layoutX="76.0" layoutY="82.0" prefHeight="25.0" prefWidth="256.0" />
+                  <TextField fx:id="textFieldDBUsername" layoutX="76.0" layoutY="82.0" prefHeight="25.0" prefWidth="256.0" />
                   <Label layoutX="14.0" layoutY="118.0" prefHeight="17.0" prefWidth="64.0" text="Password" />
-                  <TextField fx:id="textFieldSerIp1111" layoutX="76.0" layoutY="114.0" prefHeight="25.0" prefWidth="256.0" />
+                  <TextField fx:id="textFieldDBPassword" layoutX="76.0" layoutY="114.0" prefHeight="25.0" prefWidth="256.0" />
                </children>
             </AnchorPane>
         </content>

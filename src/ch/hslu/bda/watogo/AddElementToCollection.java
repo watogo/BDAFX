@@ -5,6 +5,8 @@
  */
 package ch.hslu.bda.watogo;
 
+import ch.hslu.bda.watogo.model.Settings;
+import static ch.hslu.bda.watogo.model.Settings.dbUsername;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
@@ -20,14 +22,17 @@ public class AddElementToCollection {
     }
 
     public void addToCollection(String jsonString) {
+        Settings mySetting = Settings.getInstance();
         MongoClient mongoClient = new MongoClient(new ServerAddress(),
-                Arrays.asList(MongoCredential.createCredential("admin", "test", "password".toCharArray())));
+                Arrays.asList(MongoCredential.createCredential(mySetting.dbUsername, mySetting.dbName, mySetting.dbPassword.toCharArray())));
         try {
+            /*
             for (String databaseName : mongoClient.listDatabaseNames()) {
                 System.out.println("Database: " + databaseName);
             }
-            MongoDatabase db = mongoClient.getDatabase("test");
-            MongoCollection coll = db.getCollection("test2");
+            */
+            MongoDatabase db = mongoClient.getDatabase(mySetting.dbName);
+            MongoCollection coll = db.getCollection(mySetting.dbCollection);
 
             Document doc = Document.parse(jsonString);
             coll.insertOne(doc);
