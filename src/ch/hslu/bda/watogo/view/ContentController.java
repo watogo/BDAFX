@@ -5,6 +5,7 @@
  */
 package ch.hslu.bda.watogo.view;
 
+import ch.hslu.bda.watogo.AddElementToCollection;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Button;
@@ -19,6 +20,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 
 public class ContentController {
     @FXML
@@ -54,7 +56,7 @@ public class ContentController {
     private Tab logTab;
     
     private SingleSelectionModel<Tab> selectionModel;
-    private Settings setting = new Settings();
+    private final Settings setting = Settings.getInstance();
     
     
     // Reference to the main application.
@@ -90,8 +92,37 @@ public class ContentController {
     
     @FXML
     private void refreshButtonPressed() {
-        jobsTable.setItems(main.getJobs());
-        spiderList.setItems(main.getSpiderNames());
+        //Altes Fenster schliessen
+        Stage stage = (Stage) refreshBtn.getScene().getWindow();
+        stage.close();
+        
+        //neues Fenster öffnen
+        Main newMain = new Main();
+        newMain.start(new Stage());
+    }
+    
+    @FXML
+    public void saveToDBButtonPressed(){
+        AddElementToCollection save = new AddElementToCollection();
+        save.addToCollection("{\n" +
+"  \"address\": {\n" +
+"     \"building\": \"1007\",\n" +
+"     \"coord\": [ -73.856077, 40.848447 ],\n" +
+"     \"street\": \"Morris Park Ave\",\n" +
+"     \"zipcode\": \"10462\"\n" +
+"  },\n" +
+"  \"borough\": \"Bronx\",\n" +
+"  \"cuisine\": \"Bakery\",\n" +
+"  \"grades\": [\n" +
+"     { \"date\": { \"$date\": 1393804800000 }, \"grade\": \"A\", \"score\": 2 },\n" +
+"     { \"date\": { \"$date\": 1378857600000 }, \"grade\": \"A\", \"score\": 6 },\n" +
+"     { \"date\": { \"$date\": 1358985600000 }, \"grade\": \"A\", \"score\": 10 },\n" +
+"     { \"date\": { \"$date\": 1322006400000 }, \"grade\": \"A\", \"score\": 9 },\n" +
+"     { \"date\": { \"$date\": 1299715200000 }, \"grade\": \"B\", \"score\": 14 }\n" +
+"  ],\n" +
+"  \"name\": \"Morris Park Bake Shop\",\n" +
+"  \"restaurant_id\": \"30075445\"\n" +
+"}");
     }
     
     public void setMain(Main main) {
@@ -108,6 +139,6 @@ public class ContentController {
     
     public void loadAdminGUI(){
         WebEngine webEngine = webView.getEngine();
-        webEngine.load("http://"+setting.getServerip()+":"+setting.getPort());
+        webEngine.load("http://"+setting.serverip+":"+setting.port);
     }
 }

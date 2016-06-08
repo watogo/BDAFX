@@ -57,9 +57,9 @@
                                                 </VBox>
                                                 <VBox alignment="TOP_RIGHT" prefHeight="85.0" prefWidth="223.0" spacing="5.0">
                                                    <children>
-                                                      <Button fx:id="refreshBtn" mnemonicParsing="false" onAction="#refreshButtonPressed" prefHeight="25.0" prefWidth="120.0" snapToPixel="false" text="Refresh" />
+                                                      <Button fx:id="refreshBtn" mnemonicParsing="false" onAction="#refreshButtonPressed" prefHeight="25.0" prefWidth="120.0" text="Refresh" />
                                                       <Button fx:id="showLogBtn" mnemonicParsing="false" onAction="#showLogButtonPressed" prefHeight="25.0" prefWidth="120.0" text="Show Log" />
-                                                      <Button fx:id="saveBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Save Events to DB" />
+                                                      <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#saveToDBButtonPressed" prefHeight="25.0" prefWidth="120.0" text="Save Events to DB" />
                                                    </children>
                                                 </VBox>
                                              </children>
