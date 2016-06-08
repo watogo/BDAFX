@@ -99,6 +99,8 @@ public class SettingsController implements Initializable {
             prop.setProperty("dbUsername", textFieldDBUsername.getText());
             prop.setProperty("dbPassword", textFieldDBPassword.getText());
             
+            //Hier die Settingsinstanz updaten!
+            
             prop.store(output, null);
             JOptionPane.showMessageDialog(null,
                 "Erfolgreich gespeichert");

@@ -6,7 +6,6 @@
 package ch.hslu.bda.watogo;
 
 import ch.hslu.bda.watogo.model.Settings;
-import static ch.hslu.bda.watogo.model.Settings.dbUsername;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;

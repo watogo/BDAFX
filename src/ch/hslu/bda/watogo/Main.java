@@ -87,5 +87,9 @@ public class Main extends Application {
     
     public void displayLog(Job job) {
         scrapinghub.showLog(contentControl, job);
-    }    
+    }
+    
+    public void saveToDB(Job job){
+        scrapinghub.getJsonString(contentControl, job);
+    }
 }

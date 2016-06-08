@@ -6,6 +6,7 @@
 package ch.hslu.bda.watogo;
 
 import ch.hslu.bda.watogo.model.Job;
+import ch.hslu.bda.watogo.model.Settings;
 import ch.hslu.bda.watogo.view.ContentController;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -129,4 +130,52 @@ public class ScrapinghubController {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    public String getJsonString(ContentController contentControl, Job job) {
+        String totalS = "";
+        JSONObject response;
+        try {
+            Process p;
+            String cmd = "curl -u " + key + ": https://storage.scrapinghub.com/items/" + job.jobID.getValue() + "?format=json";
+            System.out.println(cmd);
+            p = Runtime.getRuntime().exec(cmd);
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            while (true) {
+                String s = br.readLine();
+                if (s == null) {
+                    break;
+                }
+                totalS += s + "\r\n";
+            }
+
+            //totalS = totalS.substring(1, totalS.length() - 1);
+
+            //response = new JSONObject(totalS);
+            
+            /*
+            for (int i = 0; i < response.names().length(); i++) {
+                System.out.println("Name: "+response.names().getString(i));
+            }
+            */
+            
+            JSONArray myJSONArray = new JSONArray(totalS);
+
+            //JSONArray jobsArray2 = response.toJSONArray(jobsArray);
+
+            for (int i = 0; i < myJSONArray.length(); i++) {
+                System.out.println("Datum_von: " + myJSONArray.getJSONObject(i).get("Datum_von"));
+                System.out.println("Datum_bis: " + myJSONArray.getJSONObject(i).get("Datum_bis"));
+            }
+
+            System.out.println("Total String: " + totalS);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.toString(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        return totalS;
+    }
+
 }
