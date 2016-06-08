@@ -7,10 +7,7 @@ package ch.hslu.bda.watogo;
 
 import ch.hslu.bda.watogo.model.Job;
 import ch.hslu.bda.watogo.model.Settings;
-import static ch.hslu.bda.watogo.model.Settings.apiKey;
-import static ch.hslu.bda.watogo.model.Settings.projectId;
 import ch.hslu.bda.watogo.view.ContentController;
-import ch.hslu.bda.watogo.view.SettingsController;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,6 +46,7 @@ public class Main extends Application {
         
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Watogo Eventmanager");
         primaryStage.show();
         
         showContent();

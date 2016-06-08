@@ -54,6 +54,8 @@ public class ContentController {
     private TabPane tabPane;
     @FXML
     private Tab logTab;
+    @FXML
+    private WebView webScrapinhub;
     
     private SingleSelectionModel<Tab> selectionModel;
     private final Settings setting = Settings.getInstance();
@@ -141,4 +143,10 @@ public class ContentController {
         WebEngine webEngine = webView.getEngine();
         webEngine.load("http://"+setting.serverip+":"+setting.port);
     }
+    
+    public void loadScrapingHub(){
+        WebEngine webEngine = webScrapinhub.getEngine();
+        webEngine.load("https://portia.scrapinghub.com/#/projects/53883");
+    }
+    
 }
