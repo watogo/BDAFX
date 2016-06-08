@@ -12,6 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import ch.hslu.bda.watogo.Main;
 import ch.hslu.bda.watogo.model.Job;
+import ch.hslu.bda.watogo.model.Settings;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -53,7 +54,7 @@ public class ContentController {
     private Tab logTab;
     
     private SingleSelectionModel<Tab> selectionModel;
-    
+    private Settings setting = new Settings();
     
     
     // Reference to the main application.
@@ -93,11 +94,6 @@ public class ContentController {
         spiderList.setItems(main.getSpiderNames());
     }
     
-    /**
-     * Is called by the main application to give a reference back to itself.
-     * 
-     * @param main
-     */
     public void setMain(Main main) {
         this.main = main;
 
@@ -112,7 +108,6 @@ public class ContentController {
     
     public void loadAdminGUI(){
         WebEngine webEngine = webView.getEngine();
-        webEngine.load("http://localhost:1234");
+        webEngine.load("http://"+setting.getServerip()+":"+setting.getPort());
     }
-    
 }

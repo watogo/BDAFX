@@ -6,11 +6,12 @@
 package ch.hslu.bda.watogo;
 
 import ch.hslu.bda.watogo.model.Job;
+import ch.hslu.bda.watogo.model.Settings;
 import ch.hslu.bda.watogo.view.ContentController;
+import ch.hslu.bda.watogo.view.SettingsController;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.prefs.Preferences;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -28,11 +29,13 @@ public class Main extends Application {
     private ContentController contentControl;
     private Stage primaryStage;
     private BorderPane rootLayout;
+    private Settings setting;
     
     @Override
     public void start(Stage primaryStage) {
         
-        this.scrapinghub = new ScrapinghubController("bc2aa25cc40f4ed4b03988e8e0b9e89e", "53883");  
+        setting = new Settings();
+        this.scrapinghub = new ScrapinghubController(setting.getApiKey(), setting.getProjectId());  
         
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/BorderPane.fxml"));

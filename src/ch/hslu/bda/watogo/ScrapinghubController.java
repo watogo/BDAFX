@@ -14,6 +14,13 @@ import java.util.logging.Logger;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,22 +30,23 @@ import org.json.JSONObject;
  * @author Niklaus
  */
 public class ScrapinghubController {
+
     private final String key;
     private final String projectID;
     private ObservableList<Job> jobData = FXCollections.observableArrayList();
     private ObservableList<String> spiderList = FXCollections.observableArrayList();
-    
+
     public ScrapinghubController(String key, String projectID) {
         this.key = key;
         this.projectID = projectID;
     }
-    
+
     protected ObservableList<Job> retrieveJobs() {
         JSONObject response;
         try {
             Process p;
-            String cmd = "curl -u " + this.key + ": \"https://app.scrapinghub.com/api/jobs/list.json?project=" 
-                    + this.projectID +"\"";
+            String cmd = "curl -u " + this.key + ": \"https://app.scrapinghub.com/api/jobs/list.json?project="
+                    + this.projectID + "\"";
             System.out.println(cmd);
             p = Runtime.getRuntime().exec(cmd);
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -53,44 +61,49 @@ public class ScrapinghubController {
                 JSONObject jobJSON;
                 String spiderName, startedTime, state, jobID;
                 int itemsScraped;
-                for(int j=0; j < jobsArray.length(); j++) {
+                for (int j = 0; j < jobsArray.length(); j++) {
                     jobJSON = jobsArray.getJSONObject(j);
                     spiderName = jobJSON.getString("spider");
                     jobID = jobJSON.getString("id");
-                    
-                    if(jobJSON.has("started_time")) 
+
+                    if (jobJSON.has("started_time")) {
                         startedTime = jobJSON.getString("started_time");
-                    else
+                    } else {
                         startedTime = "-";
+                    }
                     itemsScraped = jobJSON.getInt("items_scraped");
-                    
-                    if(jobJSON.has("close_reason"))
+
+                    if (jobJSON.has("close_reason")) {
                         state = jobJSON.getString("close_reason");
-                    else
+                    } else {
                         state = jobJSON.getString("state");
-                    
+                    }
+
                     jobData.add(new Job(spiderName, jobID, startedTime, itemsScraped, state));
                 }
             }
         } catch (Exception ex) {
-            Logger.getLogger(ScrapinghubController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,
+                    "Please fill in the correct Settings and restart the application",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
-        
+
         return jobData;
     }
-    
+
     protected ObservableList<String> getSpiderNames() {
-        if(!jobData.isEmpty()) {
+        if (!jobData.isEmpty()) {
             for (Job element : jobData) {
-                if(!spiderList.contains(element.spider.getValue())) {
+                if (!spiderList.contains(element.spider.getValue())) {
                     spiderList.add(element.spider.getValue());
                 }
             }
         }
-        
+
         return spiderList;
     }
-    
+
     protected void showLog(ContentController contentControl, Job job) {
         try {
             Process p;
@@ -104,13 +117,16 @@ public class ScrapinghubController {
                 if (s == null) {
                     break;
                 }
-                totalS += s+"\r\n";
+                totalS += s + "\r\n";
             }
             contentControl.addText(totalS); //Add total String to logArea
-            
+
             //spiderMessageLabel.setText(s);
         } catch (Exception ex) {
-            Logger.getLogger(ScrapinghubController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,
+                    "Please fill in the correct Settings and restart the application",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }
