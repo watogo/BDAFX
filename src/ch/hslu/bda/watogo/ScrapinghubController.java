@@ -10,6 +10,11 @@ import ch.hslu.bda.watogo.model.Setting;
 import ch.hslu.bda.watogo.view.ContentController;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
@@ -170,26 +175,15 @@ public class ScrapinghubController {
             myJSONArray = new JSONArray(totalS);
 
             if (Setting.INSTANCE.getIsParseDate().equals("1")) {
-                
+
                 JComboBox myZeitList = new JComboBox(zeitstandard);
                 myZeitList.setSelectedIndex(13); //UTC+1 per default wählen
-                        
-                JOptionPane.showMessageDialog(null, myZeitList, "Bitte Zeitstandard auswählen", JOptionPane.QUESTION_MESSAGE);
-                
-                System.out.println(myZeitList.getSelectedItem());
-                
-                /*
-                String choosenObject = (String) JOptionPane.showInputDialog(frame,
-                        "Bitte Zeitstandard wählen?",
-                        "Zeitstandard",
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        zeitstandard,
-                        zeitstandard[12]);
 
-                // favoritePizza will be null if the user clicks Cancel
-                System.out.printf("Ausgewählt:\n", choosenObject);
-                */
+                JOptionPane.showMessageDialog(null, myZeitList, "Bitte Zeitstandard auswählen", JOptionPane.QUESTION_MESSAGE);
+
+                System.out.println(myZeitList.getSelectedItem());
+                System.out.println(myZeitList.getSelectedIndex());
+
                 String myDateVonString = "";
                 String myDateBisString = "";
 
@@ -231,8 +225,18 @@ public class ScrapinghubController {
                         }
                         datumVon = parser.parseDate(s);
                         datumBis = parser.parseDate(s2);
-                        System.out.println("Datum von:"+datumVon);
-                        //System.out.println("Datum bis:"+datumVon);
+                        
+                        System.out.println("Datum von:" + datumVon);
+                        
+                        Calendar calendar = Calendar.getInstance();
+                        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                        Date date = format.parse(datumVon);
+                        calendar.setTime(date); // sets calendar time/date
+                        calendar.add(Calendar.HOUR_OF_DAY, myZeitList.getSelectedIndex()-14);
+                        calendar.getTime();
+                        
+                        System.out.println("UTF formatiert: "+format.format(calendar.getTime()));
+                        
                         if (!datumVon.equals("")) {
                             myJSONArray.getJSONObject(count).put(Setting.INSTANCE.getDbBezDatumVon(), datumVon);
                         }
