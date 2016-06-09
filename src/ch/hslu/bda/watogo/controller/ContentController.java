@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.hslu.bda.watogo.view;
+package ch.hslu.bda.watogo.controller;
 
-import ch.hslu.bda.watogo.AddElementToCollection;
+import ch.hslu.bda.watogo.controller.MongoDBController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Button;
@@ -114,7 +114,7 @@ public class ContentController {
     
     @FXML
     public void saveToDBButtonPressed(){
-        AddElementToCollection save = new AddElementToCollection();
+        MongoDBController save = new MongoDBController();
         save.addToCollection(main.saveToDB(jobsTable.getSelectionModel().getSelectedItem()));
     }
     

@@ -5,7 +5,7 @@
  */
 package ch.hslu.bda.watogo.model;
 
-import ch.hslu.bda.watogo.view.SettingsController;
+import ch.hslu.bda.watogo.controller.SettingsController;
 
 /**
  *

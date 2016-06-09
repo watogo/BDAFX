@@ -6,7 +6,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane id="BorderPane" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.hslu.bda.watogo.view.BorderPaneController">
+<BorderPane id="BorderPane" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.hslu.bda.watogo.controller.BorderPaneController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>

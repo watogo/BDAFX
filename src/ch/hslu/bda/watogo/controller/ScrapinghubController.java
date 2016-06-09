@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.hslu.bda.watogo;
+package ch.hslu.bda.watogo.controller;
 
+import ch.hslu.bda.watogo.util.DateParser;
 import ch.hslu.bda.watogo.model.Job;
 import ch.hslu.bda.watogo.model.Setting;
-import ch.hslu.bda.watogo.view.ContentController;
+import ch.hslu.bda.watogo.controller.ContentController;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.DateFormat;
@@ -65,7 +66,7 @@ public class ScrapinghubController {
         this.projectID = projectID;
     }
 
-    protected ObservableList<Job> retrieveJobs() {
+    public ObservableList<Job> retrieveJobs() {
         JSONObject response;
         try {
             Process p;
@@ -116,7 +117,7 @@ public class ScrapinghubController {
         return jobData;
     }
 
-    protected ObservableList<String> getSpiderNames() {
+    public ObservableList<String> getSpiderNames() {
         if (!jobData.isEmpty()) {
             for (Job element : jobData) {
                 if (!spiderList.contains(element.spider.getValue())) {
@@ -128,7 +129,7 @@ public class ScrapinghubController {
         return spiderList;
     }
 
-    protected void showLog(ContentController contentControl, Job job) {
+    public void showLog(ContentController contentControl, Job job) {
         try {
             Process p;
             String cmd = "curl -u " + this.key + ": https://storage.scrapinghub.com/logs/" + job.jobID.getValue();
@@ -190,7 +191,7 @@ public class ScrapinghubController {
                     myDateBisString += myJSONArray.getJSONObject(i).get(Setting.INSTANCE.getDbBezDatumBis()).toString() + "~";
                 }
 
-                ParseDateToCommonFormat parser = new ParseDateToCommonFormat();
+                DateParser parser = new DateParser();
 
                 try {
                     Process pro;

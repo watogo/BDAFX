@@ -1,4 +1,4 @@
-package ch.hslu.bda.watogo.view;
+package ch.hslu.bda.watogo.controller;
 
 import ch.hslu.bda.watogo.Main;
 import java.io.IOException;

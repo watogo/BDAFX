@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package ch.hslu.bda.watogo;
+package ch.hslu.bda.watogo.controller;
 
 import ch.hslu.bda.watogo.model.Setting;
 import com.mongodb.MongoClient;
@@ -18,9 +13,9 @@ import org.bson.Document;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class AddElementToCollection {
+public class MongoDBController {
 
-    public AddElementToCollection() {
+    public MongoDBController() {
 
     }
 

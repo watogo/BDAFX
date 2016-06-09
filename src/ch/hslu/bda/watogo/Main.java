@@ -5,9 +5,10 @@
  */
 package ch.hslu.bda.watogo;
 
+import ch.hslu.bda.watogo.controller.ScrapinghubController;
 import ch.hslu.bda.watogo.model.Job;
 import ch.hslu.bda.watogo.model.Setting;
-import ch.hslu.bda.watogo.view.ContentController;
+import ch.hslu.bda.watogo.controller.ContentController;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
