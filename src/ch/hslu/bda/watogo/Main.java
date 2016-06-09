@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.json.JSONArray;
 
 /**
  *
@@ -89,7 +90,7 @@ public class Main extends Application {
         scrapinghub.showLog(contentControl, job);
     }
     
-    public void saveToDB(Job job){
-        scrapinghub.getJsonString(contentControl, job);
+    public JSONArray saveToDB(Job job){
+        return scrapinghub.getJsonArray(contentControl, job);
     }
 }

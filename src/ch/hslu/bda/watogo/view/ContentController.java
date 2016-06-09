@@ -120,11 +120,8 @@ public class ContentController {
         //1. JSON empfangen
         //2. Datum parsen
         //3. in DB speichern
-        main.saveToDB(jobsTable.getSelectionModel().getSelectedItem());
-        
-        //curl -u bc2aa25cc40f4ed4b03988e8e0b9e89e: "https://storage.scrapinghub.com/items/53883/6/3?format=json"
-        
-        //save.addToCollection("");
+        //System.out.println(main.saveToDB(jobsTable.getSelectionModel().getSelectedItem()));
+        save.addToCollection(main.saveToDB(jobsTable.getSelectionModel().getSelectedItem()));
     }
     
     public void setMain(Main main) {

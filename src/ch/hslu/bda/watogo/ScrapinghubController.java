@@ -10,6 +10,7 @@ import ch.hslu.bda.watogo.model.Settings;
 import ch.hslu.bda.watogo.view.ContentController;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.StringProperty;
@@ -131,9 +132,9 @@ public class ScrapinghubController {
         }
     }
 
-    public String getJsonString(ContentController contentControl, Job job) {
+    public JSONArray getJsonArray(ContentController contentControl, Job job) {
         String totalS = "";
-        JSONObject response;
+        JSONArray myJSONArray = null;
         try {
             Process p;
             String cmd = "curl -u " + key + ": https://storage.scrapinghub.com/items/" + job.jobID.getValue() + "?format=json";
@@ -149,33 +150,97 @@ public class ScrapinghubController {
                 totalS += s + "\r\n";
             }
 
-            //totalS = totalS.substring(1, totalS.length() - 1);
-
-            //response = new JSONObject(totalS);
+            myJSONArray = new JSONArray(totalS);
+            
+            String myDateVonString = "";
+            String myDateBisString = "";
+            
+            for (int i = 0; i < myJSONArray.length(); i++) {
+                myDateVonString += myJSONArray.getJSONObject(i).get("Datum_von").toString()+"~";
+                myDateBisString += myJSONArray.getJSONObject(i).get("Datum_bis").toString()+"~";
+            }
             
             /*
-            for (int i = 0; i < response.names().length(); i++) {
-                System.out.println("Name: "+response.names().getString(i));
+            System.out.println("vor Parsen:");
+            for(int i = 0; i < myJSONArray.length(); i++){
+                
+                System.out.println(myJSONArray.getJSONObject(i).toString());
             }
             */
             
-            JSONArray myJSONArray = new JSONArray(totalS);
-
-            //JSONArray jobsArray2 = response.toJSONArray(jobsArray);
-
-            for (int i = 0; i < myJSONArray.length(); i++) {
-                System.out.println("Datum_von: " + myJSONArray.getJSONObject(i).get("Datum_von"));
-                System.out.println("Datum_bis: " + myJSONArray.getJSONObject(i).get("Datum_bis"));
+            ParseDateToCommonFormat parser = new ParseDateToCommonFormat();
+                
+            try {
+                Process pro;
+                Process pro2;
+                //String date = myJSONArray.getJSONObject(i).get("Datum_von").toString();
+                //date = date.replace(' ', ';');
+                
+                myDateVonString = myDateVonString.replace(' ', ';');
+                myDateVonString = myDateVonString.substring(0, myDateVonString.length()-1); //letztes zeichen abschneiden
+                myDateBisString = myDateBisString.replace(' ', ';');
+                myDateBisString = myDateBisString.substring(0, myDateBisString.length()-1); //letztes zeichen abschneiden
+                        
+                //String command[] = {"python", "scripts/parseDate.py", "--date=" + date};
+                String command[] = {"python", "scripts/parseDate.py", "--date=" + myDateVonString};
+                String command2[] = {"python", "scripts/parseDate.py", "--date=" + myDateBisString};
+                pro = Runtime.getRuntime().exec(command);
+                pro2 = Runtime.getRuntime().exec(command2);
+                
+                BufferedReader buffRead = new BufferedReader(new InputStreamReader(pro.getInputStream()));
+                BufferedReader buffRead2 = new BufferedReader(new InputStreamReader(pro2.getInputStream()));
+                
+                String s = "";
+                String s2 = "";
+                String datumVom = "";
+                String datumBis = "";
+                int count = 0;
+                
+                while (true) {
+                    s = buffRead.readLine();
+                    s2 = buffRead2.readLine();
+                    
+                    if (s == null || s2 == null) {
+                        break;
+                    }
+                    datumVom = parser.parseDate(s);
+                    datumBis = parser.parseDate(s2);
+                    
+                    if(!datumVom.equals("")){
+                        myJSONArray.getJSONObject(count).put("Datum_von", datumVom);
+                    }
+                    if(!datumBis.equals("")){
+                        myJSONArray.getJSONObject(count).put("Datum_bis", datumBis);
+                    }
+                    count++;
+                    //totalS += result + "\r\n";
+                }
+                
+                
+                
+                /*
+                System.out.println("nach Parsen:");
+                for(int i = 0; i < myJSONArray.length(); i++){
+                    System.out.println(myJSONArray.getJSONObject(i).toString());
+                }
+                */
+                
+                //System.out.println("Normales Datum: " + myJSONArray.getJSONObject(i).get("Datum_von"));
+                //System.out.println(result);
+                //this.jLabel1.setText(this.jLabel1.getText() + " " + result);
+            } catch (Exception ex) {
+                System.out.println("Parse Error");
             }
-
-            System.out.println("Total String: " + totalS);
+            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.toString(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
-        return totalS;
+        
+        //System.out.println(myJSONArray.toString().substring(1, myJSONArray.toString().length()-1));
+        
+        return myJSONArray;
     }
-
 }
