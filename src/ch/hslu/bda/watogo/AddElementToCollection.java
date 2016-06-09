@@ -5,24 +5,18 @@
  */
 package ch.hslu.bda.watogo;
 
-import ch.hslu.bda.watogo.model.Settings;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
+import ch.hslu.bda.watogo.model.Setting;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.util.JSON;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bson.Document;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class AddElementToCollection {
 
@@ -31,29 +25,12 @@ public class AddElementToCollection {
     }
 
     public void addToCollection(JSONArray jsonArray) {
-        Settings mySetting = Settings.getInstance();
+        Setting mySetting = Setting.INSTANCE;
         MongoClient mongoClient = new MongoClient(new ServerAddress(),
-                Arrays.asList(MongoCredential.createCredential(mySetting.dbUsername, mySetting.dbName, mySetting.dbPassword.toCharArray())));
+                Arrays.asList(MongoCredential.createCredential(mySetting.getDbUsername(), mySetting.getDbName(), mySetting.getDbPassword().toCharArray())));
         try {
-            /*
-            for (String databaseName : mongoClient.listDatabaseNames()) {
-                System.out.println("Database: " + databaseName);
-            }
-            */
-            MongoDatabase db = mongoClient.getDatabase(mySetting.dbName);
-            
-            MongoCollection coll = db.getCollection(mySetting.dbCollection);
-            
-            
-            
-            /*
-            DBCollection collection = (DBCollection) db.getCollection(mySetting.dbCollection);
-            
-            DBObject dbObject = (DBObject)JSON.parse(jsonString);
-            collection.insert(dbObject);
-            */
-            
-            //JSONArray jsonArray = new JSONArray(jsonArrayString);
+            MongoDatabase db = mongoClient.getDatabase(mySetting.getDbName());
+            MongoCollection coll = db.getCollection(mySetting.getDbCollection());
             
             List<Document> list = new ArrayList<>();
             

@@ -12,9 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import ch.hslu.bda.watogo.Main;
-import ch.hslu.bda.watogo.ScrapinghubController;
 import ch.hslu.bda.watogo.model.Job;
-import ch.hslu.bda.watogo.model.Settings;
+import ch.hslu.bda.watogo.model.Setting;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -60,8 +59,8 @@ public class ContentController {
     private WebView webScrapinhub;
     
     private SingleSelectionModel<Tab> selectionModel;
-    private final Settings setting = Settings.getInstance();
     
+    private final Setting setting = Setting.INSTANCE;
     
     // Reference to the main application.
     private Main main;
@@ -138,11 +137,11 @@ public class ContentController {
     
     public void loadAdminGUI(){
         WebEngine webEngine = webView.getEngine();
-        webEngine.load("http://"+setting.serverip+":"+setting.port);
+        webEngine.load("http://"+setting.getServerip()+":"+setting.getPort());
     }
     
     public void loadScrapingHub(){
         WebEngine webEngine = webScrapinhub.getEngine();
-        webEngine.load("https://app.scrapinghub.com/p/53883/periodic-jobs?apikey="+setting.apiKey);
+        webEngine.load("https://app.scrapinghub.com/p/53883/periodic-jobs?apikey="+setting.getApiKey());
     }
 }

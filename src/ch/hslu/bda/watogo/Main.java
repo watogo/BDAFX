@@ -6,7 +6,7 @@
 package ch.hslu.bda.watogo;
 
 import ch.hslu.bda.watogo.model.Job;
-import ch.hslu.bda.watogo.model.Settings;
+import ch.hslu.bda.watogo.model.Setting;
 import ch.hslu.bda.watogo.view.ContentController;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -29,13 +29,16 @@ public class Main extends Application {
     private ContentController contentControl;
     private Stage primaryStage;
     private BorderPane rootLayout;
-    private Settings setting;
+    //private Settings setting;
     
     @Override
     public void start(Stage primaryStage) {
         
-        setting = Settings.getInstance();
-        this.scrapinghub = new ScrapinghubController(setting.apiKey, setting.projectId);  
+        //setting = Settings.getInstance();
+        Setting setting = Setting.INSTANCE;
+        setting.updateSettings(); //Settings auslesen
+        
+        this.scrapinghub = new ScrapinghubController(setting.getApiKey(), setting.getProjectId());  
         
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/BorderPane.fxml"));

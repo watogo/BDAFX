@@ -1,5 +1,6 @@
 package ch.hslu.bda.watogo.view;
 
+import ch.hslu.bda.watogo.model.Setting;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -99,19 +100,21 @@ public class SettingsController implements Initializable {
             prop.setProperty("dbUsername", textFieldDBUsername.getText());
             prop.setProperty("dbPassword", textFieldDBPassword.getText());
             
-            //Hier die Settingsinstanz updaten!
-            
             prop.store(output, null);
+            
             JOptionPane.showMessageDialog(null,
                 "Erfolgreich gespeichert");
+            
         } catch (IOException io) {
-            //io.printStackTrace();
+            System.out.println("IOException!!!!");
         } finally {
             if (output != null) {
                 try {
                     output.close();
+                    //Hier die Settingsinstanz updaten!
+                    Setting.INSTANCE.updateSettings();
                 } catch (IOException e) {
-                    //e.printStackTrace();
+                    System.out.println("IOException!!!!");
                 }
             }
         }
