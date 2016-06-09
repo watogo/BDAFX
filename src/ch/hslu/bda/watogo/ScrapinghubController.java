@@ -6,6 +6,7 @@
 package ch.hslu.bda.watogo;
 
 import ch.hslu.bda.watogo.model.Job;
+import ch.hslu.bda.watogo.model.Setting;
 import ch.hslu.bda.watogo.view.ContentController;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -139,96 +140,70 @@ public class ScrapinghubController {
             }
 
             myJSONArray = new JSONArray(totalS);
-            
-            String myDateVonString = "";
-            String myDateBisString = "";
-            
-            for (int i = 0; i < myJSONArray.length(); i++) {
-                myDateVonString += myJSONArray.getJSONObject(i).get("Datum_von").toString()+"~";
-                myDateBisString += myJSONArray.getJSONObject(i).get("Datum_bis").toString()+"~";
-            }
-            
-            /*
-            System.out.println("vor Parsen:");
-            for(int i = 0; i < myJSONArray.length(); i++){
-                
-                System.out.println(myJSONArray.getJSONObject(i).toString());
-            }
-            */
-            
-            ParseDateToCommonFormat parser = new ParseDateToCommonFormat();
-                
-            try {
-                Process pro;
-                Process pro2;
-                //String date = myJSONArray.getJSONObject(i).get("Datum_von").toString();
-                //date = date.replace(' ', ';');
-                
-                myDateVonString = myDateVonString.replace(' ', ';');
-                myDateVonString = myDateVonString.substring(0, myDateVonString.length()-1); //letztes zeichen abschneiden
-                myDateBisString = myDateBisString.replace(' ', ';');
-                myDateBisString = myDateBisString.substring(0, myDateBisString.length()-1); //letztes zeichen abschneiden
-                        
-                //String command[] = {"python", "scripts/parseDate.py", "--date=" + date};
-                String command[] = {"python", "scripts/parseDate.py", "--date=" + myDateVonString};
-                String command2[] = {"python", "scripts/parseDate.py", "--date=" + myDateBisString};
-                pro = Runtime.getRuntime().exec(command);
-                pro2 = Runtime.getRuntime().exec(command2);
-                
-                BufferedReader buffRead = new BufferedReader(new InputStreamReader(pro.getInputStream()));
-                BufferedReader buffRead2 = new BufferedReader(new InputStreamReader(pro2.getInputStream()));
-                
-                String s = "";
-                String s2 = "";
-                String datumVom = "";
-                String datumBis = "";
-                int count = 0;
-                
-                while (true) {
-                    s = buffRead.readLine();
-                    s2 = buffRead2.readLine();
-                    
-                    if (s == null || s2 == null) {
-                        break;
-                    }
-                    datumVom = parser.parseDate(s);
-                    datumBis = parser.parseDate(s2);
-                    
-                    if(!datumVom.equals("")){
-                        myJSONArray.getJSONObject(count).put("Datum_von", datumVom);
-                    }
-                    if(!datumBis.equals("")){
-                        myJSONArray.getJSONObject(count).put("Datum_bis", datumBis);
-                    }
-                    count++;
-                    //totalS += result + "\r\n";
+
+            if (Setting.INSTANCE.getIsParseDate().equals("1")) {
+                String myDateVonString = "";
+                String myDateBisString = "";
+
+                for (int i = 0; i < myJSONArray.length(); i++) {
+                    myDateVonString += myJSONArray.getJSONObject(i).get(Setting.INSTANCE.getDbBezDatumVon()).toString() + "~";
+                    myDateBisString += myJSONArray.getJSONObject(i).get(Setting.INSTANCE.getDbBezDatumBis()).toString() + "~";
                 }
-                
-                
-                
-                /*
-                System.out.println("nach Parsen:");
-                for(int i = 0; i < myJSONArray.length(); i++){
-                    System.out.println(myJSONArray.getJSONObject(i).toString());
+
+                ParseDateToCommonFormat parser = new ParseDateToCommonFormat();
+
+                try {
+                    Process pro;
+                    Process pro2;
+                    myDateVonString = myDateVonString.replace(' ', ';');
+                    myDateVonString = myDateVonString.substring(0, myDateVonString.length() - 1); //letztes zeichen abschneiden
+                    myDateBisString = myDateBisString.replace(' ', ';');
+                    myDateBisString = myDateBisString.substring(0, myDateBisString.length() - 1); //letztes zeichen abschneiden
+
+                    String command[] = {"python", "scripts/parseDate.py", "--date=" + myDateVonString};
+                    String command2[] = {"python", "scripts/parseDate.py", "--date=" + myDateBisString};
+                    pro = Runtime.getRuntime().exec(command);
+                    pro2 = Runtime.getRuntime().exec(command2);
+
+                    BufferedReader buffRead = new BufferedReader(new InputStreamReader(pro.getInputStream()));
+                    BufferedReader buffRead2 = new BufferedReader(new InputStreamReader(pro2.getInputStream()));
+
+                    String s = "";
+                    String s2 = "";
+                    String datumVom = "";
+                    String datumBis = "";
+                    int count = 0;
+
+                    while (true) {
+                        s = buffRead.readLine();
+                        s2 = buffRead2.readLine();
+
+                        if (s == null || s2 == null) {
+                            break;
+                        }
+                        datumVom = parser.parseDate(s);
+                        datumBis = parser.parseDate(s2);
+
+                        if (!datumVom.equals("")) {
+                            myJSONArray.getJSONObject(count).put(Setting.INSTANCE.getDbBezDatumVon(), datumVom);
+                        }
+                        if (!datumBis.equals("")) {
+                            myJSONArray.getJSONObject(count).put(Setting.INSTANCE.getDbBezDatumBis(), datumBis);
+                        }
+                        count++;
+                    }
+                } catch (Exception ex) {
+                    System.out.println("Parse Error");
                 }
-                */
-                
-                //System.out.println("Normales Datum: " + myJSONArray.getJSONObject(i).get("Datum_von"));
-                //System.out.println(result);
-                //this.jLabel1.setText(this.jLabel1.getText() + " " + result);
-            } catch (Exception ex) {
-                System.out.println("Parse Error");
             }
-            
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.toString(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
-        
-        //System.out.println(myJSONArray.toString().substring(1, myJSONArray.toString().length()-1));
-        
+
         return myJSONArray;
     }
 }

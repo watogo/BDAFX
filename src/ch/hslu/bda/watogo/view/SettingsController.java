@@ -15,6 +15,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 
@@ -43,7 +44,12 @@ public class SettingsController implements Initializable {
     private TextField textFieldDBUsername;
     @FXML
     private TextField textFieldDBPassword;
-    
+    @FXML
+    private TextField textFieldDateVon;
+    @FXML
+    private TextField textFieldDateBis;
+    @FXML
+    private CheckBox checkBoxParseDate;
     /**
      * Initializes the controller class.
      */
@@ -69,7 +75,19 @@ public class SettingsController implements Initializable {
             textFieldDBCollection.setText(prop.getProperty("dbCollection"));
             textFieldDBUsername.setText(prop.getProperty("dbUsername"));
             textFieldDBPassword.setText(prop.getProperty("dbPassword"));
-
+            textFieldDateVon.setText(prop.getProperty("dbBezDatumVon"));
+            textFieldDateBis.setText(prop.getProperty("dbBezDatumBis"));
+            
+            if(prop.getProperty("isParseDate") != null){
+                if(prop.getProperty("isParseDate").equals("1")){
+                    checkBoxParseDate.setSelected(true);
+                }else{
+                    checkBoxParseDate.setSelected(false);
+                }
+            }else{
+                checkBoxParseDate.setSelected(false);
+            }
+            
         } catch (IOException ex) {
             //ex.printStackTrace();
             System.out.println("Noch keine Datei gefunden!");
@@ -99,6 +117,9 @@ public class SettingsController implements Initializable {
             prop.setProperty("dbCollection", textFieldDBCollection.getText());
             prop.setProperty("dbUsername", textFieldDBUsername.getText());
             prop.setProperty("dbPassword", textFieldDBPassword.getText());
+            prop.setProperty("dbBezDatumVon", textFieldDateVon.getText());
+            prop.setProperty("dbBezDatumBis", textFieldDateBis.getText());
+            prop.setProperty("isParseDate", checkBoxParseDate.isSelected()?"1":"0");
             
             prop.store(output, null);
             
@@ -143,7 +164,7 @@ public class SettingsController implements Initializable {
         }
         return property;
     }
-
+    
     @FXML
     public void handleClose(Event event) {
         ((Node) (event.getSource())).getScene().getWindow().hide();

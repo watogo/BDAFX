@@ -14,14 +14,17 @@ import ch.hslu.bda.watogo.view.SettingsController;
 public enum Setting {
     INSTANCE;
     
-    private String apiKey = "";
-    private String projectId = "";
-    private String port = "";
-    private String serverip = "";
-    private String dbName = "";
-    private String dbCollection = "";
-    private String dbUsername = "";
-    private String dbPassword = "";
+    private String apiKey;
+    private String projectId;
+    private String port;
+    private String serverip;
+    private String dbName;
+    private String dbCollection;
+    private String dbUsername;
+    private String dbPassword;
+    private String dbBezDatumVon;
+    private String dbBezDatumBis;
+    private String isParseDate;
     
     public String getApiKey() {
         return apiKey;
@@ -86,6 +89,32 @@ public enum Setting {
     public void setDbPassword(String dbPassword) {
         this.dbPassword = dbPassword;
     }
+
+    public String getDbBezDatumVon() {
+        return dbBezDatumVon;
+    }
+
+    public void setDbBezDatumVon(String dbBezDatumVon) {
+        this.dbBezDatumVon = dbBezDatumVon;
+    }
+
+    public String getDbBezDatumBis() {
+        return dbBezDatumBis;
+    }
+
+    public void setDbBezDatumBis(String dbBezDatumBis) {
+        this.dbBezDatumBis = dbBezDatumBis;
+    }
+
+    public String getIsParseDate() {
+        return isParseDate;
+    }
+
+    public void setIsParseDate(String isParseDate) {
+        this.isParseDate = isParseDate;
+    }
+    
+    
     
     public void updateSettings(){
         SettingsController settingControl = new SettingsController();
@@ -97,6 +126,9 @@ public enum Setting {
         setDbCollection(settingControl.getSetting("dbCollection"));
         setDbUsername(settingControl.getSetting("dbUsername"));
         setDbPassword(settingControl.getSetting("dbPassword"));
+        setDbBezDatumVon(settingControl.getSetting("dbBezDatumVon"));
+        setDbBezDatumBis(settingControl.getSetting("dbBezDatumBis"));
+        setIsParseDate(settingControl.getSetting("isParseDate"));
     }
     
 }
