@@ -23,7 +23,7 @@ public class BorderPaneController {
     private void handleSettings() {
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("view/Settings.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("view/Settings.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Settings");
             stage.setResizable(false);
