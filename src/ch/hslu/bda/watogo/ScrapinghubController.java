@@ -12,6 +12,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,6 +29,31 @@ public class ScrapinghubController {
     private final String projectID;
     private ObservableList<Job> jobData = FXCollections.observableArrayList();
     private ObservableList<String> spiderList = FXCollections.observableArrayList();
+    public static final String[] zeitstandard = {"UTC-12",
+        "UTC-11",
+        "UTC-10",
+        "UTC-9",
+        "UTC-8",
+        "UTC-7",
+        "UTC-6",
+        "UTC-5",
+        "UTC-4",
+        "UTC-3",
+        "UTC-2",
+        "UTC-1",
+        "UTC+0",
+        "UTC+1",
+        "UTC+2",
+        "UTC+3",
+        "UTC+4",
+        "UTC+5",
+        "UTC+6",
+        "UTC+7",
+        "UTC+8",
+        "UTC+9",
+        "UTC+10",
+        "UTC+11",
+        "UTC+12"};
 
     public ScrapinghubController(String key, String projectID) {
         this.key = key;
@@ -142,6 +170,26 @@ public class ScrapinghubController {
             myJSONArray = new JSONArray(totalS);
 
             if (Setting.INSTANCE.getIsParseDate().equals("1")) {
+                
+                JComboBox myZeitList = new JComboBox(zeitstandard);
+                myZeitList.setSelectedIndex(13); //UTC+1 per default wählen
+                        
+                JOptionPane.showMessageDialog(null, myZeitList, "Bitte Zeitstandard auswählen", JOptionPane.QUESTION_MESSAGE);
+                
+                System.out.println(myZeitList.getSelectedItem());
+                
+                /*
+                String choosenObject = (String) JOptionPane.showInputDialog(frame,
+                        "Bitte Zeitstandard wählen?",
+                        "Zeitstandard",
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        zeitstandard,
+                        zeitstandard[12]);
+
+                // favoritePizza will be null if the user clicks Cancel
+                System.out.printf("Ausgewählt:\n", choosenObject);
+                */
                 String myDateVonString = "";
                 String myDateBisString = "";
 
@@ -170,7 +218,7 @@ public class ScrapinghubController {
 
                     String s = "";
                     String s2 = "";
-                    String datumVom = "";
+                    String datumVon = "";
                     String datumBis = "";
                     int count = 0;
 
@@ -181,11 +229,12 @@ public class ScrapinghubController {
                         if (s == null || s2 == null) {
                             break;
                         }
-                        datumVom = parser.parseDate(s);
+                        datumVon = parser.parseDate(s);
                         datumBis = parser.parseDate(s2);
-
-                        if (!datumVom.equals("")) {
-                            myJSONArray.getJSONObject(count).put(Setting.INSTANCE.getDbBezDatumVon(), datumVom);
+                        System.out.println("Datum von:"+datumVon);
+                        //System.out.println("Datum bis:"+datumVon);
+                        if (!datumVon.equals("")) {
+                            myJSONArray.getJSONObject(count).put(Setting.INSTANCE.getDbBezDatumVon(), datumVon);
                         }
                         if (!datumBis.equals("")) {
                             myJSONArray.getJSONObject(count).put(Setting.INSTANCE.getDbBezDatumBis(), datumBis);
@@ -203,7 +252,6 @@ public class ScrapinghubController {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
-
         return myJSONArray;
     }
 }

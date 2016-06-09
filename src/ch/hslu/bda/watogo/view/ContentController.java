@@ -115,11 +115,6 @@ public class ContentController {
     @FXML
     public void saveToDBButtonPressed(){
         AddElementToCollection save = new AddElementToCollection();
-        
-        //1. JSON empfangen
-        //2. Datum parsen
-        //3. in DB speichern
-        //System.out.println(main.saveToDB(jobsTable.getSelectionModel().getSelectedItem()));
         save.addToCollection(main.saveToDB(jobsTable.getSelectionModel().getSelectedItem()));
     }
     
