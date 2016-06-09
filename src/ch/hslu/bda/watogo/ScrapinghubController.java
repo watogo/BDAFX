@@ -144,8 +144,6 @@ public class ScrapinghubController {
                 totalS += s + "\r\n";
             }
             contentControl.addText(totalS); //Add total String to logArea
-
-            //spiderMessageLabel.setText(s);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     "Please fill in the correct Settings and restart the application",
@@ -201,7 +199,7 @@ public class ScrapinghubController {
                     myDateVonString = myDateVonString.substring(0, myDateVonString.length() - 1); //letztes zeichen abschneiden
                     myDateBisString = myDateBisString.replace(' ', ';');
                     myDateBisString = myDateBisString.substring(0, myDateBisString.length() - 1); //letztes zeichen abschneiden
-
+                    
                     String command[] = {"python", "scripts/parseDate.py", "--date=" + myDateVonString};
                     String command2[] = {"python", "scripts/parseDate.py", "--date=" + myDateBisString};
                     pro = Runtime.getRuntime().exec(command);
@@ -226,12 +224,10 @@ public class ScrapinghubController {
                         datumVon = parser.parseDate(s);
                         datumBis = parser.parseDate(s2);
                         
-                        System.out.println("Datum von:" + datumVon);
-                        
                         Calendar calendar = Calendar.getInstance();
                         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                         Date date = format.parse(datumVon);
-                        calendar.setTime(date); // sets calendar time/date
+                        calendar.setTime(date);
                         calendar.add(Calendar.HOUR_OF_DAY, myZeitList.getSelectedIndex()-14);
                         calendar.getTime();
                         
@@ -249,7 +245,6 @@ public class ScrapinghubController {
                     System.out.println("Parse Error");
                 }
             }
-
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     ex.toString(),
