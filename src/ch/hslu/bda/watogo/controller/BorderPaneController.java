@@ -7,18 +7,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 
-/**
- *
- * @author Mumi
- */
 public class BorderPaneController {
-    private Main mainApp;
 
-    public void setMainApp(Main mainApp) {
-        this.mainApp = mainApp;
-    }
-    
     @FXML
     private void handleSettings() {
         Parent root;
@@ -30,13 +22,13 @@ public class BorderPaneController {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                    "Failed to load Settings",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    /**
-     * Closes the application.
-     */
     @FXML
     private void handleExit() {
         System.exit(0);

@@ -24,7 +24,6 @@ public class MongoDBController {
     public void addToCollection(JSONArray jsonArray) {
         Setting mySetting = Setting.INSTANCE;
 
-        //try DB Authentication
         MongoClient mongoClient;
         mongoClient = null;
         try {
@@ -42,7 +41,10 @@ public class MongoDBController {
                     doc.append("verified", "false");
                     list.add(doc);
                 } catch (JSONException ex) {
-                    System.out.println("Kann nicht in Liste einfügen!");
+                    JOptionPane.showMessageDialog(null,
+                            ex.toString(),
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
 

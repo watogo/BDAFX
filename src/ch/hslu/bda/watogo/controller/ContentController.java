@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.hslu.bda.watogo.controller;
 
 import javafx.fxml.FXML;
@@ -13,7 +8,6 @@ import javafx.scene.control.TableView;
 import ch.hslu.bda.watogo.Main;
 import ch.hslu.bda.watogo.model.Job;
 import ch.hslu.bda.watogo.model.Setting;
-import com.mongodb.MongoCommandException;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -24,6 +18,7 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 public class ContentController {
+
     @FXML
     private TableView<Job> jobsTable;
     @FXML
@@ -36,7 +31,7 @@ public class ContentController {
     private TableColumn<Job, Integer> numberColumn;
     @FXML
     private TableColumn<Job, String> stateColumn;
-    
+
     @FXML
     private ComboBox<String> spiderList;
     @FXML
@@ -57,25 +52,17 @@ public class ContentController {
     private Tab logTab;
     @FXML
     private WebView webScrapinhub;
-    
+
     private SingleSelectionModel<Tab> selectionModel;
-    
+
     private final Setting setting = Setting.INSTANCE;
-    
+
     // Reference to the main application.
     private Main main;
 
-    /**
-     * The constructor.
-     * The constructor is called before the initialize() method.
-     */
     public ContentController() {
     }
 
-    /**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
-     */
     @FXML
     private void initialize() {
         // Initialize the person table with the two columns.
@@ -86,38 +73,37 @@ public class ContentController {
         stateColumn.setCellValueFactory(cellData -> cellData.getValue().state);
         selectionModel = tabPane.getSelectionModel();
     }
-    
+
     @FXML
     private void showLogButtonPressed() {
-        
-        if(jobsTable.getSelectionModel().getSelectedIndex() != -1){
+        if (jobsTable.getSelectionModel().getSelectedIndex() != -1) {
             main.displayLog(jobsTable.getSelectionModel().getSelectedItem());
             selectionModel.select(logTab);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null,
                     "Please select an item",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     @FXML
     private void refreshButtonPressed() {
-        //Altes Fenster schliessen
+        //Close old window
         Stage stage = (Stage) refreshBtn.getScene().getWindow();
         stage.close();
-        
-        //neues Fenster öffnen
+
+        //open new window
         Main newMain = new Main();
         newMain.start(new Stage());
     }
-    
+
     @FXML
-    public void saveToDBButtonPressed(){
+    public void saveToDBButtonPressed() {
         MongoDBController save = new MongoDBController();
         save.addToCollection(main.saveToDB(jobsTable.getSelectionModel().getSelectedItem()));
     }
-    
+
     public void setMain(Main main) {
         this.main = main;
 
@@ -125,18 +111,18 @@ public class ContentController {
         jobsTable.setItems(main.getJobs());
         spiderList.setItems(main.getSpiderNames());
     }
-    
-    public void addText(String text){
+
+    public void addText(String text) {
         logArea.setText(text);
     }
-    
-    public void loadAdminGUI(){
+
+    public void loadAdminGUI() {
         WebEngine webEngine = webView.getEngine();
-        webEngine.load("http://"+setting.getServerip()+":"+setting.getPort());
+        webEngine.load("http://" + setting.getServerip() + ":" + setting.getPort());
     }
-    
-    public void loadScrapingHub(){
+
+    public void loadScrapingHub() {
         WebEngine webEngine = webScrapinhub.getEngine();
-        webEngine.load("https://app.scrapinghub.com/p/53883/periodic-jobs?apikey="+setting.getApiKey());
+        webEngine.load("https://app.scrapinghub.com/p/" + setting.getProjectId() + "/periodic-jobs?apikey=" + setting.getApiKey());
     }
 }

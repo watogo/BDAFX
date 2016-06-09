@@ -1,34 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.hslu.bda.watogo.controller;
 
 import ch.hslu.bda.watogo.util.DateParser;
 import ch.hslu.bda.watogo.model.Job;
 import ch.hslu.bda.watogo.model.Setting;
-import ch.hslu.bda.watogo.controller.ContentController;
+import java.awt.HeadlessException;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ComboBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- *
- * @author Niklaus
- */
 public class ScrapinghubController {
 
     private final String key;
@@ -72,7 +63,6 @@ public class ScrapinghubController {
             Process p;
             String cmd = "curl -u " + this.key + ": \"https://app.scrapinghub.com/api/jobs/list.json?project="
                     + this.projectID + "\"";
-            System.out.println(cmd);
             p = Runtime.getRuntime().exec(cmd);
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
@@ -133,7 +123,6 @@ public class ScrapinghubController {
         try {
             Process p;
             String cmd = "curl -u " + this.key + ": https://storage.scrapinghub.com/logs/" + job.jobID.getValue();
-            System.out.println(cmd);
             p = Runtime.getRuntime().exec(cmd);
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String totalS = "";
@@ -159,7 +148,6 @@ public class ScrapinghubController {
         try {
             Process p;
             String cmd = "curl -u " + key + ": https://storage.scrapinghub.com/items/" + job.jobID.getValue() + "?format=json";
-            System.out.println(cmd);
             p = Runtime.getRuntime().exec(cmd);
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
@@ -200,7 +188,7 @@ public class ScrapinghubController {
                     myDateVonString = myDateVonString.substring(0, myDateVonString.length() - 1); //letztes zeichen abschneiden
                     myDateBisString = myDateBisString.replace(' ', ';');
                     myDateBisString = myDateBisString.substring(0, myDateBisString.length() - 1); //letztes zeichen abschneiden
-                    
+
                     String command[] = {"python", "scripts/parseDate.py", "--date=" + myDateVonString};
                     String command2[] = {"python", "scripts/parseDate.py", "--date=" + myDateBisString};
                     pro = Runtime.getRuntime().exec(command);
@@ -224,26 +212,26 @@ public class ScrapinghubController {
                         }
                         datumVon = parser.parseDate(s);
                         datumBis = parser.parseDate(s2);
-                        
+
                         Calendar calendarVon = Calendar.getInstance();
                         Calendar calendarBis = Calendar.getInstance();
-                        
+
                         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                        
+
                         Date dateVon = format.parse(datumVon);
                         Date dateBis = format.parse(datumBis);
-                        
+
                         calendarVon.setTime(dateVon);
                         calendarBis.setTime(dateBis);
-                        
-                        if(myZeitList.getSelectedIndex() < 12){
-                            calendarVon.add(Calendar.HOUR_OF_DAY, (-1)*myZeitList.getSelectedIndex()-12);
-                            calendarBis.add(Calendar.HOUR_OF_DAY, (-1)*myZeitList.getSelectedIndex()-12);
-                        }else if(myZeitList.getSelectedIndex() > 12){
-                            calendarVon.add(Calendar.HOUR_OF_DAY, -myZeitList.getSelectedIndex()-12);
-                            calendarBis.add(Calendar.HOUR_OF_DAY, -myZeitList.getSelectedIndex()-12);
+
+                        if (myZeitList.getSelectedIndex() < 12) {
+                            calendarVon.add(Calendar.HOUR_OF_DAY, (-1) * myZeitList.getSelectedIndex() - 12);
+                            calendarBis.add(Calendar.HOUR_OF_DAY, (-1) * myZeitList.getSelectedIndex() - 12);
+                        } else if (myZeitList.getSelectedIndex() > 12) {
+                            calendarVon.add(Calendar.HOUR_OF_DAY, -myZeitList.getSelectedIndex() - 12);
+                            calendarBis.add(Calendar.HOUR_OF_DAY, -myZeitList.getSelectedIndex() - 12);
                         }
-                        
+
                         if (!format.format(calendarVon.getTime()).equals("")) {
                             myJSONArray.getJSONObject(count).put(Setting.INSTANCE.getDbBezDatumVon(), format.format(calendarVon.getTime()));
                         }
@@ -252,11 +240,14 @@ public class ScrapinghubController {
                         }
                         count++;
                     }
-                } catch (Exception ex) {
-                    System.out.println("Parse Error");
+                } catch (IOException | ParseException | JSONException ex) {
+                    JOptionPane.showMessageDialog(null,
+                            ex.toString(),
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
-        } catch (Exception ex) {
+        } catch (IOException | JSONException | HeadlessException ex) {
             JOptionPane.showMessageDialog(null,
                     ex.toString(),
                     "Error",

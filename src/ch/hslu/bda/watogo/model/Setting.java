@@ -1,19 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.hslu.bda.watogo.model;
 
 import ch.hslu.bda.watogo.controller.SettingsController;
 
-/**
- *
- * @author Mumi
- */
 public enum Setting {
+
     INSTANCE;
-    
+
     private String apiKey;
     private String projectId;
     private String port;
@@ -25,7 +17,7 @@ public enum Setting {
     private String dbBezDatumVon;
     private String dbBezDatumBis;
     private String isParseDate;
-    
+
     public String getApiKey() {
         return apiKey;
     }
@@ -113,10 +105,8 @@ public enum Setting {
     public void setIsParseDate(String isParseDate) {
         this.isParseDate = isParseDate;
     }
-    
-    
-    
-    public void updateSettings(){
+
+    public void updateSettings() {
         SettingsController settingControl = new SettingsController();
         setApiKey(settingControl.getSetting("apiKey"));
         setProjectId(settingControl.getSetting("projectId"));
@@ -130,5 +120,5 @@ public enum Setting {
         setDbBezDatumBis(settingControl.getSetting("dbBezDatumBis"));
         setIsParseDate(settingControl.getSetting("isParseDate"));
     }
-    
+
 }

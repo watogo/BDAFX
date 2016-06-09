@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.hslu.bda.watogo;
 
 import ch.hslu.bda.watogo.controller.ScrapinghubController;
@@ -19,28 +14,27 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 import org.json.JSONArray;
 
-/**
- *
- * @author Niklaus
- */
 public class Main extends Application {
+
     private ScrapinghubController scrapinghub;
     private ContentController contentControl;
-    private Stage primaryStage;
     private BorderPane rootLayout;
-    //private Settings setting;
-    
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) {
-        
-        //setting = Settings.getInstance();
+
         Setting setting = Setting.INSTANCE;
-        setting.updateSettings(); //Settings auslesen
-        
-        this.scrapinghub = new ScrapinghubController(setting.getApiKey(), setting.getProjectId());  
-        
+        setting.updateSettings();
+
+        this.scrapinghub = new ScrapinghubController(setting.getApiKey(), setting.getProjectId());
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("view/BorderPane.fxml"));
         try {
@@ -48,15 +42,15 @@ public class Main extends Application {
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Watogo Eventmanager");
         primaryStage.show();
-        
+
         showContent();
     }
-    
+
     private void showContent() {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -64,22 +58,16 @@ public class Main extends Application {
             AnchorPane personOverview = (AnchorPane) loader.load();
 
             rootLayout.setCenter(personOverview);
-            
+
             this.contentControl = loader.getController();
             contentControl.setMain(this);
-            
+
         } catch (IOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                    "Failed to load Content",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
-    }
-    
-  
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
     }
 
     public ObservableList<Job> getJobs() {
@@ -89,12 +77,12 @@ public class Main extends Application {
     public ObservableList<String> getSpiderNames() {
         return scrapinghub.getSpiderNames();
     }
-    
+
     public void displayLog(Job job) {
         scrapinghub.showLog(contentControl, job);
     }
-    
-    public JSONArray saveToDB(Job job){
+
+    public JSONArray saveToDB(Job job) {
         return scrapinghub.getJsonArray(contentControl, job);
     }
 }

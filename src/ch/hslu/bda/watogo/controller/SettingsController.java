@@ -19,14 +19,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 
-/**
- * FXML Controller class
- *
- * @author Mumi
- */
 public class SettingsController implements Initializable {
-
-    private Preferences prefs;
 
     @FXML
     private TextField textFieldApi;
@@ -50,9 +43,7 @@ public class SettingsController implements Initializable {
     private TextField textFieldDateBis;
     @FXML
     private CheckBox checkBoxParseDate;
-    /**
-     * Initializes the controller class.
-     */
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadPrefs();
@@ -66,7 +57,6 @@ public class SettingsController implements Initializable {
             input = new FileInputStream("settings.properties");
             prop.load(input);
 
-            // get the property value and print it out
             textFieldApi.setText(prop.getProperty("apiKey"));
             textFieldProId.setText(prop.getProperty("projectId"));
             textFieldSerIp.setText(prop.getProperty("serverIp"));
@@ -77,26 +67,24 @@ public class SettingsController implements Initializable {
             textFieldDBPassword.setText(prop.getProperty("dbPassword"));
             textFieldDateVon.setText(prop.getProperty("dbBezDatumVon"));
             textFieldDateBis.setText(prop.getProperty("dbBezDatumBis"));
-            
-            if(prop.getProperty("isParseDate") != null){
-                if(prop.getProperty("isParseDate").equals("1")){
+
+            if (prop.getProperty("isParseDate") != null) {
+                if (prop.getProperty("isParseDate").equals("1")) {
                     checkBoxParseDate.setSelected(true);
-                }else{
+                } else {
                     checkBoxParseDate.setSelected(false);
                 }
-            }else{
+            } else {
                 checkBoxParseDate.setSelected(false);
             }
-            
+
         } catch (IOException ex) {
-            //ex.printStackTrace();
             System.out.println("Noch keine Datei gefunden!");
         } finally {
             if (input != null) {
                 try {
                     input.close();
                 } catch (IOException e) {
-                    //e.printStackTrace();
                     System.out.println("Noch keine Datei gefunden!");
                 }
             }
@@ -119,21 +107,20 @@ public class SettingsController implements Initializable {
             prop.setProperty("dbPassword", textFieldDBPassword.getText());
             prop.setProperty("dbBezDatumVon", textFieldDateVon.getText());
             prop.setProperty("dbBezDatumBis", textFieldDateBis.getText());
-            prop.setProperty("isParseDate", checkBoxParseDate.isSelected()?"1":"0");
-            
+            prop.setProperty("isParseDate", checkBoxParseDate.isSelected() ? "1" : "0");
+
             prop.store(output, null);
-            
+
             JOptionPane.showMessageDialog(null,
-                "Erfolgreich gespeichert");
-            
+                    "Erfolgreich gespeichert");
+
         } catch (IOException io) {
             System.out.println("IOException!!!!");
         } finally {
             if (output != null) {
                 try {
                     output.close();
-                    //Hier die Settingsinstanz updaten!
-                    Setting.INSTANCE.updateSettings();
+                    Setting.INSTANCE.updateSettings(); //Settings updaten
                 } catch (IOException e) {
                     System.out.println("IOException!!!!");
                 }
@@ -150,21 +137,19 @@ public class SettingsController implements Initializable {
             prop.load(input);
             property = prop.getProperty(settingName);
         } catch (IOException ex) {
-            //ex.printStackTrace();
             System.out.println("Noch keine Datei gefunden!");
         } finally {
             if (input != null) {
                 try {
                     input.close();
                 } catch (IOException e) {
-                    //e.printStackTrace();
                     System.out.println("Noch keine Datei gefunden!");
                 }
             }
         }
         return property;
     }
-    
+
     @FXML
     public void handleClose(Event event) {
         ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -174,19 +159,19 @@ public class SettingsController implements Initializable {
     public void handleTryConnection() {
         Boolean reachable = false;
         try {
-            reachable = InetAddress.getByName(this.textFieldSerIp.getText()).isReachable(5000);            
+            reachable = InetAddress.getByName(this.textFieldSerIp.getText()).isReachable(5000);
         } catch (Exception e) {
             System.out.println("Fehler ist aufgetreten beim der Server Ip");
         }
-        
-        if (reachable){
+
+        if (reachable) {
             JOptionPane.showMessageDialog(null,
-                "Der Server ist erreichbar");
-        }else{
+                    "Der Server ist erreichbar");
+        } else {
             JOptionPane.showMessageDialog(null,
-                "Ungültige Server IP",
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
+                    "Ungültige Server IP",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }
