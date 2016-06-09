@@ -13,6 +13,7 @@ import javafx.scene.control.TableView;
 import ch.hslu.bda.watogo.Main;
 import ch.hslu.bda.watogo.model.Job;
 import ch.hslu.bda.watogo.model.Setting;
+import com.mongodb.MongoCommandException;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
