@@ -225,20 +225,30 @@ public class ScrapinghubController {
                         datumVon = parser.parseDate(s);
                         datumBis = parser.parseDate(s2);
                         
-                        Calendar calendar = Calendar.getInstance();
+                        Calendar calendarVon = Calendar.getInstance();
+                        Calendar calendarBis = Calendar.getInstance();
+                        
                         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                        Date date = format.parse(datumVon);
-                        calendar.setTime(date);
-                        calendar.add(Calendar.HOUR_OF_DAY, myZeitList.getSelectedIndex()-14);
-                        calendar.getTime();
                         
-                        System.out.println("UTF formatiert: "+format.format(calendar.getTime()));
+                        Date dateVon = format.parse(datumVon);
+                        Date dateBis = format.parse(datumBis);
                         
-                        if (!datumVon.equals("")) {
-                            myJSONArray.getJSONObject(count).put(Setting.INSTANCE.getDbBezDatumVon(), datumVon);
+                        calendarVon.setTime(dateVon);
+                        calendarBis.setTime(dateBis);
+                        
+                        if(myZeitList.getSelectedIndex() < 12){
+                            calendarVon.add(Calendar.HOUR_OF_DAY, (-1)*myZeitList.getSelectedIndex()-12);
+                            calendarBis.add(Calendar.HOUR_OF_DAY, (-1)*myZeitList.getSelectedIndex()-12);
+                        }else if(myZeitList.getSelectedIndex() > 12){
+                            calendarVon.add(Calendar.HOUR_OF_DAY, -myZeitList.getSelectedIndex()-12);
+                            calendarBis.add(Calendar.HOUR_OF_DAY, -myZeitList.getSelectedIndex()-12);
                         }
-                        if (!datumBis.equals("")) {
-                            myJSONArray.getJSONObject(count).put(Setting.INSTANCE.getDbBezDatumBis(), datumBis);
+                        
+                        if (!format.format(calendarVon.getTime()).equals("")) {
+                            myJSONArray.getJSONObject(count).put(Setting.INSTANCE.getDbBezDatumVon(), format.format(calendarVon.getTime()));
+                        }
+                        if (!format.format(calendarBis.getTime()).equals("")) {
+                            myJSONArray.getJSONObject(count).put(Setting.INSTANCE.getDbBezDatumBis(), format.format(calendarBis.getTime()));
                         }
                         count++;
                     }
