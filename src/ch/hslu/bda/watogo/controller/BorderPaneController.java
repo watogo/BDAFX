@@ -9,8 +9,16 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
+/**
+ * Controller für das BorderPane.
+ *
+ * @author Muhamed und Niklaus
+ */
 public class BorderPaneController {
 
+    /**
+     * ActionListener für den Klick auf die Settings.
+     */
     @FXML
     private void handleSettings() {
         Parent root;
@@ -29,6 +37,9 @@ public class BorderPaneController {
         }
     }
 
+    /**
+     * ActionListener für den Klick auf Exit.
+     */
     @FXML
     private void handleExit() {
         System.exit(0);

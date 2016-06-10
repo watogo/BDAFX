@@ -15,12 +15,24 @@ import org.bson.Document;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+/**
+ * Controller für die MongoDB.
+ *
+ * @author Muhamed und Niklaus
+ */
 public class MongoDBController {
 
+    /**
+     * Konstruktor.
+     */
     public MongoDBController() {
-
     }
 
+    /**
+     * Fügt das JSON Array in die Datenbank ein.
+     *
+     * @param jsonArray - Alle Objekte die in die Datenbank gespeichert werden
+     */
     public void addToCollection(JSONArray jsonArray) {
         Setting mySetting = Setting.INSTANCE;
 

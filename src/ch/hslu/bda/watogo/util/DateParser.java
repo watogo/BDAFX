@@ -1,7 +1,18 @@
 package ch.hslu.bda.watogo.util;
 
+/**
+ * Datumsparserklasse
+ *
+ * @author Muhamed und Niklaus
+ */
 public class DateParser {
 
+    /**
+     * Parst einen String in das Standardformat 'yyyy-MM-dd HH:mm'.
+     *
+     * @param input - Datum im Stringformat
+     * @return geparstes Datum
+     */
     public String parseDate(String input) {
         String tmp = input.substring(30);
         int end = tmp.indexOf(")");

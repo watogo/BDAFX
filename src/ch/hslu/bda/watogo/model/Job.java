@@ -5,6 +5,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Model für einen Job.
+ *
+ * @author Muhamed und Niklaus
+ */
 public class Job {
 
     public final StringProperty spider;
@@ -13,6 +18,15 @@ public class Job {
     public final IntegerProperty numberOfEvents;
     public final StringProperty state;
 
+    /**
+     * Konstruktor.
+     *
+     * @param spider - Spider
+     * @param jobID - Job ID
+     * @param startTime - Startzeit
+     * @param numEvents - Anzahl Events
+     * @param state - Status
+     */
     public Job(String spider, String jobID, String startTime, int numEvents, String state) {
         this.spider = new SimpleStringProperty(spider);
         this.jobID = new SimpleStringProperty(jobID);

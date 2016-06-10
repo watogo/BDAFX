@@ -10,7 +10,6 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import java.util.prefs.Preferences;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,6 +18,11 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 
+/**
+ * Controller für die Settings.
+ *
+ * @author Muhamed und Niklaus
+ */
 public class SettingsController implements Initializable {
 
     @FXML
@@ -44,11 +48,21 @@ public class SettingsController implements Initializable {
     @FXML
     private CheckBox checkBoxParseDate;
 
+    /**
+     * Initialmethode für die Settings. Hier werden die Settings geladen.
+     *
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadPrefs();
     }
 
+    /**
+     * Lädt die Einstellungen von der 'settings.properties' Datei, die sich im
+     * Root-Verzeichnis befindet.
+     */
     private void loadPrefs() {
         Properties prop = new Properties();
         InputStream input = null;
@@ -91,6 +105,9 @@ public class SettingsController implements Initializable {
         }
     }
 
+    /**
+     * Speichert die Einstellungen in die 'settings.properties' Datei.
+     */
     @FXML
     private void saveProp() {
         Properties prop = new Properties();
@@ -128,6 +145,12 @@ public class SettingsController implements Initializable {
         }
     }
 
+    /**
+     * Gibt den Wert eines Settings zurück.
+     *
+     * @param settingName - Settingname
+     * @return Settingwert
+     */
     public String getSetting(String settingName) {
         Properties prop = new Properties();
         InputStream input = null;
@@ -150,11 +173,20 @@ public class SettingsController implements Initializable {
         return property;
     }
 
+    /**
+     * Schliesst das Fenster.
+     *
+     * @param event - Event der ausgelöst wird.
+     */
     @FXML
     public void handleClose(Event event) {
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
 
+    /**
+     * Überprüft die Verbindung zum Server. Der Server wird in den Settings
+     * definiert.
+     */
     @FXML
     public void handleTryConnection() {
         Boolean reachable = false;

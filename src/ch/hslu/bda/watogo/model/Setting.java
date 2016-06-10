@@ -2,6 +2,11 @@ package ch.hslu.bda.watogo.model;
 
 import ch.hslu.bda.watogo.controller.SettingsController;
 
+/**
+ * Enumeration der Einstellungen.
+ *
+ * @author Muhamed und Niklaus
+ */
 public enum Setting {
 
     INSTANCE;
@@ -106,6 +111,9 @@ public enum Setting {
         this.isParseDate = isParseDate;
     }
 
+    /**
+     * Setzt alle Einstellungen aus der Datei.
+     */
     public void updateSettings() {
         SettingsController settingControl = new SettingsController();
         setApiKey(settingControl.getSetting("apiKey"));

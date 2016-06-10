@@ -17,6 +17,11 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
+/**
+ * Controller für das Hauptfenster.
+ *
+ * @author Muhamed und Niklaus
+ */
 public class ContentController {
 
     @FXML
@@ -60,9 +65,15 @@ public class ContentController {
     // Reference to the main application.
     private Main main;
 
+    /**
+     * Konstruktor.
+     */
     public ContentController() {
     }
 
+    /**
+     * init Methode wenn das GUI gezeichnet wird.
+     */
     @FXML
     private void initialize() {
         // Initialize the person table with the two columns.
@@ -74,6 +85,9 @@ public class ContentController {
         selectionModel = tabPane.getSelectionModel();
     }
 
+    /**
+     * ActionListener für den ShowLog Button
+     */
     @FXML
     private void showLogButtonPressed() {
         if (jobsTable.getSelectionModel().getSelectedIndex() != -1) {
@@ -87,6 +101,9 @@ public class ContentController {
         }
     }
 
+    /**
+     * ActionListener für den refresh Button
+     */
     @FXML
     private void refreshButtonPressed() {
         //Close old window
@@ -98,12 +115,18 @@ public class ContentController {
         newMain.start(new Stage());
     }
 
+    /**
+     * ActionListener für den Save to DB Button
+     */
     @FXML
     public void saveToDBButtonPressed() {
         MongoDBController save = new MongoDBController();
         save.addToCollection(main.saveToDB(jobsTable.getSelectionModel().getSelectedItem()));
     }
 
+    /**
+     * Referenziert auf die Main Methode.
+     */
     public void setMain(Main main) {
         this.main = main;
 
@@ -112,15 +135,26 @@ public class ContentController {
         spiderList.setItems(main.getSpiderNames());
     }
 
+    /**
+     * Fügt einen Text der logArea hinzu.
+     *
+     * @param text - Text, der hinzugefügt werden soll
+     */
     public void addText(String text) {
         logArea.setText(text);
     }
 
+    /**
+     * lädt das Admin GUI.
+     */
     public void loadAdminGUI() {
         WebEngine webEngine = webView.getEngine();
         webEngine.load("http://" + setting.getServerip() + ":" + setting.getPort());
     }
 
+    /**
+     * Lädt die Scheduling Seite von scrapinghub.com
+     */
     public void loadScrapingHub() {
         WebEngine webEngine = webScrapinhub.getEngine();
         webEngine.load("https://app.scrapinghub.com/p/" + setting.getProjectId() + "/periodic-jobs?apikey=" + setting.getApiKey());

@@ -17,16 +17,31 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import org.json.JSONArray;
 
+/**
+ * Hauptklasse der Applikation. Hier wird das Programm gestartet.
+ *
+ * @author Muhamed und Niklaus
+ */
 public class Main extends Application {
 
     private ScrapinghubController scrapinghub;
     private ContentController contentControl;
     private BorderPane rootLayout;
 
+    /**
+     * Main Funktion.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Das Hauptfenster wird gezeichnet.
+     *
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
 
@@ -51,6 +66,9 @@ public class Main extends Application {
         showContent();
     }
 
+    /**
+     * Ladet den Inhalt vom Fenster.
+     */
     private void showContent() {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -70,18 +88,39 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Gibt alle Jobs zurück, die es gibt.
+     *
+     * @return Liste von Jobs
+     */
     public ObservableList<Job> getJobs() {
         return scrapinghub.retrieveJobs();
     }
 
+    /**
+     * Gibt alle Spidernamen zurück.
+     *
+     * @return Liste der Spidernamen
+     */
     public ObservableList<String> getSpiderNames() {
         return scrapinghub.getSpiderNames();
     }
 
+    /**
+     * Zeigt das Logfile von einem Job an.
+     *
+     * @param job - Der Job, der angezeigt werden soll.
+     */
     public void displayLog(Job job) {
         scrapinghub.showLog(contentControl, job);
     }
 
+    /**
+     * Speichert alle Items in die Datenbank.
+     *
+     * @param job - der Job, der gespeichert werden soll.
+     * @return Ein JSON Array aller Items
+     */
     public JSONArray saveToDB(Job job) {
         return scrapinghub.getJsonArray(contentControl, job);
     }

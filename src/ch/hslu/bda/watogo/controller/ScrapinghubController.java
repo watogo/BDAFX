@@ -20,6 +20,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Controller für die Interaktion mit Scrapinghub.
+ *
+ * @author Muhamed und Niklaus
+ */
 public class ScrapinghubController {
 
     private final String key;
@@ -52,11 +57,22 @@ public class ScrapinghubController {
         "UTC+11",
         "UTC+12"};
 
+    /**
+     * Konstruktor.
+     *
+     * @param key - API Key
+     * @param projectID - Projekt ID
+     */
     public ScrapinghubController(String key, String projectID) {
         this.key = key;
         this.projectID = projectID;
     }
 
+    /**
+     * Gibt alle Jobs zurück, die sich auf Scrapinghub befinden.
+     *
+     * @return alle Jobs
+     */
     public ObservableList<Job> retrieveJobs() {
         JSONObject response;
         try {
@@ -107,6 +123,11 @@ public class ScrapinghubController {
         return jobData;
     }
 
+    /**
+     * Gibt alle Spidernamen zurück, die sich auf Scrapinghub befinden.
+     *
+     * @return alle Spidernamen
+     */
     public ObservableList<String> getSpiderNames() {
         if (!jobData.isEmpty()) {
             for (Job element : jobData) {
@@ -119,6 +140,12 @@ public class ScrapinghubController {
         return spiderList;
     }
 
+    /**
+     * Zeigt das Log an.
+     *
+     * @param contentControl - Kontroller vom content
+     * @param job - Der Job, welcher ausgegeben werden soll.
+     */
     public void showLog(ContentController contentControl, Job job) {
         try {
             Process p;
@@ -142,6 +169,13 @@ public class ScrapinghubController {
         }
     }
 
+    /**
+     * Gibt alle Items zurück, die zum Job vorhanden sind.
+     *
+     * @param contentControl - Controller vom Content
+     * @param job - Job von dem die Items sind
+     * @return JSON Array mit allen Items
+     */
     public JSONArray getJsonArray(ContentController contentControl, Job job) {
         String totalS = "";
         JSONArray myJSONArray = null;
