@@ -17,7 +17,6 @@
                   <TextField fx:id="textFieldApi" layoutX="108.0" layoutY="13.0" prefHeight="25.0" prefWidth="256.0" />
                   <Label layoutX="8.0" layoutY="47.0" prefHeight="17.0" prefWidth="64.0" text="Project Id" />
                   <TextField fx:id="textFieldProId" layoutX="108.0" layoutY="43.0" prefHeight="25.0" prefWidth="256.0" />
-                  <CheckBox fx:id="checkBoxParseDate" layoutX="372.0" layoutY="17.0" mnemonicParsing="false" text="Parse date" />
                </children>
             </AnchorPane>
         </content>
@@ -53,6 +52,7 @@
                   <TextField fx:id="textFieldDateVon" layoutX="109.0" layoutY="147.0" prefHeight="25.0" prefWidth="256.0" />
                   <Label layoutX="14.0" layoutY="183.0" prefHeight="17.0" prefWidth="86.0" text="Bez Datum Bis" />
                   <TextField fx:id="textFieldDateBis" layoutX="109.0" layoutY="179.0" prefHeight="25.0" prefWidth="256.0" />
+                  <CheckBox fx:id="checkBoxParseDate" layoutX="373.0" layoutY="182.0" mnemonicParsing="false" text="Parse date" />
                </children>
             </AnchorPane>
         </content>

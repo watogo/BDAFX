@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -61,6 +62,7 @@ public class Main extends Application {
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Watogo Eventmanager");
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("images/watogoLogo.png")));
         primaryStage.show();
 
         showContent();

@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
@@ -27,6 +28,7 @@ public class BorderPaneController {
             Stage stage = new Stage();
             stage.setTitle("Settings");
             stage.setResizable(false);
+            stage.getIcons().add(new Image(Main.class.getResourceAsStream("images/watogoLogo.png")));
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
