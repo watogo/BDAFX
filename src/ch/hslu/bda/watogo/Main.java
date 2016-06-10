@@ -61,7 +61,7 @@ public class Main extends Application {
 
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Watogo Eventmanager");
+        primaryStage.setTitle("Watogo CrawlerAdmin");
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("images/watogoLogo.png")));
         primaryStage.show();
 
