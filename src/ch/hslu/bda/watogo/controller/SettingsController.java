@@ -107,9 +107,10 @@ public class SettingsController implements Initializable {
 
     /**
      * Speichert die Einstellungen in die 'settings.properties' Datei.
+     * @param event - Event der ausgelöst wird.
      */
     @FXML
-    private void saveProp() {
+    private void saveProp(Event event) {
         Properties prop = new Properties();
         OutputStream output = null;
         try {
@@ -128,9 +129,6 @@ public class SettingsController implements Initializable {
 
             prop.store(output, null);
 
-            JOptionPane.showMessageDialog(null,
-                    "Erfolgreich gespeichert");
-
         } catch (IOException io) {
             System.out.println("IOException!!!!");
         } finally {
@@ -142,6 +140,9 @@ public class SettingsController implements Initializable {
                     System.out.println("IOException!!!!");
                 }
             }
+            
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+            
         }
     }
 
@@ -171,16 +172,6 @@ public class SettingsController implements Initializable {
             }
         }
         return property;
-    }
-
-    /**
-     * Schliesst das Fenster.
-     *
-     * @param event - Event der ausgelöst wird.
-     */
-    @FXML
-    public void handleClose(Event event) {
-        ((Node) (event.getSource())).getScene().getWindow().hide();
     }
 
     /**

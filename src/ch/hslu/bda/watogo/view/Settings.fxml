@@ -21,8 +21,7 @@
             </AnchorPane>
         </content>
       </TitledPane>
-      <Button layoutX="346.0" layoutY="488.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="97.0" text="Close" />
-      <Button layoutX="292.0" layoutY="488.0" mnemonicParsing="false" onAction="#saveProp" text="Save" />
+      <Button layoutX="361.0" layoutY="490.0" mnemonicParsing="false" onAction="#saveProp" text="Save and Close" />
       <TitledPane layoutY="107.0" prefHeight="121.0" prefWidth="457.0" text="Server">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="97.0" prefWidth="455.0">
