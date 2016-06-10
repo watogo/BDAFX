@@ -31,7 +31,7 @@ public class ScrapinghubController {
     private final String projectID;
     private ObservableList<Job> jobData = FXCollections.observableArrayList();
     private ObservableList<String> spiderList = FXCollections.observableArrayList();
-    public static final String[] zeitstandard = {"UTC-12",
+    private static final String[] zeitstandard = {"UTC-12",
         "UTC-11",
         "UTC-10",
         "UTC-9",
