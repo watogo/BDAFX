@@ -40,12 +40,6 @@ public class ContentController {
     @FXML
     private ComboBox<String> spiderList;
     @FXML
-    private Button saveBtn;
-    @FXML
-    private Button showLogBtn;
-    @FXML
-    private Button runBtn;
-    @FXML
     private Button refreshBtn;
     @FXML
     private TextArea logArea;
@@ -126,6 +120,7 @@ public class ContentController {
 
     /**
      * Referenziert auf die Main Methode.
+     *
      * @param main - Referenz auf die Mainklasse
      */
     public void setMain(Main main) {
