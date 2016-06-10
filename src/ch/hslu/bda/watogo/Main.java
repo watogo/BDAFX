@@ -31,7 +31,7 @@ public class Main extends Application {
     /**
      * Main Funktion.
      *
-     * @param args
+     * @param args - Argumente
      */
     public static void main(String[] args) {
         launch(args);
@@ -40,7 +40,7 @@ public class Main extends Application {
     /**
      * Das Hauptfenster wird gezeichnet.
      *
-     * @param primaryStage
+     * @param primaryStage - Hauptstage
      */
     @Override
     public void start(Stage primaryStage) {

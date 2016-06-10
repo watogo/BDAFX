@@ -51,8 +51,8 @@ public class SettingsController implements Initializable {
     /**
      * Initialmethode für die Settings. Hier werden die Settings geladen.
      *
-     * @param url
-     * @param rb
+     * @param url - Url
+     * @param rb - ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

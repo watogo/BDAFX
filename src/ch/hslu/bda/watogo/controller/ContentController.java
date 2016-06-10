@@ -126,6 +126,7 @@ public class ContentController {
 
     /**
      * Referenziert auf die Main Methode.
+     * @param main - Referenz auf die Mainklasse
      */
     public void setMain(Main main) {
         this.main = main;
