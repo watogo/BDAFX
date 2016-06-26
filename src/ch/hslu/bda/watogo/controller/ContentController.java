@@ -8,6 +8,10 @@ import javafx.scene.control.TableView;
 import ch.hslu.bda.watogo.Main;
 import ch.hslu.bda.watogo.model.Job;
 import ch.hslu.bda.watogo.model.Setting;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -51,6 +55,8 @@ public class ContentController {
     private Tab logTab;
     @FXML
     private WebView webScrapinhub;
+    @FXML
+    private Button runBtn;
 
     private SingleSelectionModel<Tab> selectionModel;
 
@@ -118,6 +124,30 @@ public class ContentController {
         save.addToCollection(main.saveToDB(jobsTable.getSelectionModel().getSelectedItem()));
     }
 
+    @FXML
+    public void runSpiderButtonPressed() {
+        try {
+            Process p;
+            String cmd = "curl -u " + setting.getApiKey() + ": https://dash.scrapinghub.com/api/run.json -d project="
+                    + setting.getProjectId() + " -d spider=" + this.spiderList.getSelectionModel().getSelectedItem();
+            System.out.println(cmd);
+            p = Runtime.getRuntime().exec(cmd);
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            //this.spiderIdField.setEnabled(true);
+            //this.showLogBtn.setEnabled(true);
+            while (true) {
+                String s = br.readLine();
+                if (s == null) {
+                    break;
+                }
+                //String oldContent = returnTestArea.getText();
+                //returnTestArea.setTöext(oldContent + "\n" + s);
+            }
+        } catch (Exception ex) {
+            System.out.println("Fehler beim ausführen des Spiders!");
+        }
+    }
+
     /**
      * Referenziert auf die Main Methode.
      *
@@ -154,5 +184,14 @@ public class ContentController {
     public void loadScrapingHub() {
         WebEngine webEngine = webScrapinhub.getEngine();
         webEngine.load("https://app.scrapinghub.com/p/" + setting.getProjectId() + "/periodic-jobs?apikey=" + setting.getApiKey());
+
+        
+        /*
+        webScrapinhub.getEngine().getLoadWorker().stateProperty()
+                .addListener((ov, oldState, newState) -> {
+                    System.err.println(webScrapinhub.getEngine().getLoadWorker()
+                            .exceptionProperty());
+                });
+                */
     }
 }

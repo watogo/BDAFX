@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import javafx.collections.FXCollections;
@@ -56,6 +57,8 @@ public class ScrapinghubController {
         "UTC+10",
         "UTC+11",
         "UTC+12"};
+
+    private JComboBox myZeitList = new JComboBox(zeitstandard);
 
     /**
      * Konstruktor.
@@ -197,88 +200,43 @@ public class ScrapinghubController {
 
             if (Setting.INSTANCE.getIsParseDate().equals("1")) {
 
-                JComboBox myZeitList = new JComboBox(zeitstandard);
                 myZeitList.setSelectedIndex(13); //UTC+1 per default wählen
 
                 JOptionPane.showMessageDialog(null, myZeitList, "Bitte Zeitstandard auswählen", JOptionPane.QUESTION_MESSAGE);
 
-                System.out.println(myZeitList.getSelectedItem());
-                System.out.println(myZeitList.getSelectedIndex());
+                ArrayList<String> myDateVonStringArray = new ArrayList<>();
+                ArrayList<String> myDateBisStringArray = new ArrayList<>();
 
                 String myDateVonString = "";
                 String myDateBisString = "";
 
                 for (int i = 0; i < myJSONArray.length(); i++) {
-                    myDateVonString += myJSONArray.getJSONObject(i).get(Setting.INSTANCE.getDbBezDatumVon()).toString() + "~";
-                    myDateBisString += myJSONArray.getJSONObject(i).get(Setting.INSTANCE.getDbBezDatumBis()).toString() + "~";
+                    myDateVonStringArray.add(myJSONArray.getJSONObject(i).get(Setting.INSTANCE.getDbBezDatumVon()).toString() + "~");
+                    myDateBisStringArray.add(myJSONArray.getJSONObject(i).get(Setting.INSTANCE.getDbBezDatumBis()).toString() + "~");
+
+                    //myDateVonString += myJSONArray.getJSONObject(i).get(Setting.INSTANCE.getDbBezDatumVon()).toString() + "~";
+                    //myDateBisString += myJSONArray.getJSONObject(i).get(Setting.INSTANCE.getDbBezDatumBis()).toString() + "~";
                 }
-
-                DateParser parser = new DateParser();
-
-                try {
-                    Process pro;
-                    Process pro2;
-                    myDateVonString = myDateVonString.replace(' ', ';');
-                    myDateVonString = myDateVonString.substring(0, myDateVonString.length() - 1); //letztes zeichen abschneiden
-                    myDateBisString = myDateBisString.replace(' ', ';');
-                    myDateBisString = myDateBisString.substring(0, myDateBisString.length() - 1); //letztes zeichen abschneiden
-
-                    String command[] = {"python", "scripts/parseDate.py", "--date=" + myDateVonString};
-                    String command2[] = {"python", "scripts/parseDate.py", "--date=" + myDateBisString};
-                    pro = Runtime.getRuntime().exec(command);
-                    pro2 = Runtime.getRuntime().exec(command2);
-
-                    BufferedReader buffRead = new BufferedReader(new InputStreamReader(pro.getInputStream()));
-                    BufferedReader buffRead2 = new BufferedReader(new InputStreamReader(pro2.getInputStream()));
-
-                    String s = "";
-                    String s2 = "";
-                    String datumVon = "";
-                    String datumBis = "";
-                    int count = 0;
-
-                    while (true) {
-                        s = buffRead.readLine();
-                        s2 = buffRead2.readLine();
-
-                        if (s == null || s2 == null) {
-                            break;
-                        }
-                        datumVon = parser.parseDate(s);
-                        datumBis = parser.parseDate(s2);
-
-                        Calendar calendarVon = Calendar.getInstance();
-                        Calendar calendarBis = Calendar.getInstance();
-
-                        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
-                        Date dateVon = format.parse(datumVon);
-                        Date dateBis = format.parse(datumBis);
-
-                        calendarVon.setTime(dateVon);
-                        calendarBis.setTime(dateBis);
-
-                        if (myZeitList.getSelectedIndex() < 12) {
-                            calendarVon.add(Calendar.HOUR_OF_DAY, (-1) * myZeitList.getSelectedIndex() - 12);
-                            calendarBis.add(Calendar.HOUR_OF_DAY, (-1) * myZeitList.getSelectedIndex() - 12);
-                        } else if (myZeitList.getSelectedIndex() > 12) {
-                            calendarVon.add(Calendar.HOUR_OF_DAY, -myZeitList.getSelectedIndex() - 12);
-                            calendarBis.add(Calendar.HOUR_OF_DAY, -myZeitList.getSelectedIndex() - 12);
-                        }
-
-                        if (!format.format(calendarVon.getTime()).equals("")) {
-                            myJSONArray.getJSONObject(count).put(Setting.INSTANCE.getDbBezDatumVon(), format.format(calendarVon.getTime()));
-                        }
-                        if (!format.format(calendarBis.getTime()).equals("")) {
-                            myJSONArray.getJSONObject(count).put(Setting.INSTANCE.getDbBezDatumBis(), format.format(calendarBis.getTime()));
-                        }
-                        count++;
+                
+                for(int i = 0; i < myDateVonStringArray.size(); i++){
+                    myDateVonString += myDateVonStringArray.get(i);
+                    myDateBisString += myDateBisStringArray.get(i);
+                    
+                    if(((i % 799 == 0)&&(i!= 0)) || (i == myDateVonStringArray.size()-1)){ 
+                        
+                        System.out.println("Hallo: "+i);
+                        
+                        //800 Elemente
+                        myDateVonString = myDateVonString.replace(' ', ';');
+                        myDateVonString = myDateVonString.substring(0, myDateVonString.length() - 1); //letztes zeichen abschneiden
+                        myDateBisString = myDateBisString.replace(' ', ';');
+                        myDateBisString = myDateBisString.substring(0, myDateBisString.length() - 1); //letztes zeichen abschneiden
+                
+                        myJSONArray = runPythonScript(myJSONArray, myDateVonString, myDateBisString, i-799);
+                        
+                        myDateVonString = ""; //reset
+                        myDateBisString = "";//reset
                     }
-                } catch (IOException | ParseException | JSONException ex) {
-                    JOptionPane.showMessageDialog(null,
-                            ex.toString(),
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         } catch (IOException | JSONException | HeadlessException ex) {
@@ -289,4 +247,73 @@ public class ScrapinghubController {
         }
         return myJSONArray;
     }
+
+    private JSONArray runPythonScript(JSONArray myArray, String myDateVonString, String myDateBisString, int indexOf) {
+
+        DateParser parser = new DateParser();
+
+        try {
+            Process pro;
+            Process pro2;
+
+            String command[] = {"python", "scripts/parseDate.py", "--date=" + myDateVonString};
+            String command2[] = {"python", "scripts/parseDate.py", "--date=" + myDateBisString};
+            pro = Runtime.getRuntime().exec(command);
+            pro2 = Runtime.getRuntime().exec(command2);
+
+            BufferedReader buffRead = new BufferedReader(new InputStreamReader(pro.getInputStream()));
+            BufferedReader buffRead2 = new BufferedReader(new InputStreamReader(pro2.getInputStream()));
+
+            String s = "";
+            String s2 = "";
+            String datumVon = "";
+            String datumBis = "";
+            //int count = 0;
+
+            while (true) {
+                s = buffRead.readLine();
+                s2 = buffRead2.readLine();
+
+                if (s == null || s2 == null) {
+                    break;
+                }
+                datumVon = parser.parseDate(s);
+                datumBis = parser.parseDate(s2);
+
+                Calendar calendarVon = Calendar.getInstance();
+                Calendar calendarBis = Calendar.getInstance();
+
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+                Date dateVon = format.parse(datumVon);
+                Date dateBis = format.parse(datumBis);
+
+                calendarVon.setTime(dateVon);
+                calendarBis.setTime(dateBis);
+
+                if (myZeitList.getSelectedIndex() < 12) {
+                    calendarVon.add(Calendar.HOUR_OF_DAY, (-1) * myZeitList.getSelectedIndex() - 12);
+                    calendarBis.add(Calendar.HOUR_OF_DAY, (-1) * myZeitList.getSelectedIndex() - 12);
+                } else if (myZeitList.getSelectedIndex() > 12) {
+                    calendarVon.add(Calendar.HOUR_OF_DAY, -myZeitList.getSelectedIndex() - 12);
+                    calendarBis.add(Calendar.HOUR_OF_DAY, -myZeitList.getSelectedIndex() - 12);
+                }
+
+                if (!format.format(calendarVon.getTime()).equals("")) {
+                    myArray.getJSONObject(indexOf).put(Setting.INSTANCE.getDbBezDatumVon(), format.format(calendarVon.getTime()));
+                }
+                if (!format.format(calendarBis.getTime()).equals("")) {
+                    myArray.getJSONObject(indexOf).put(Setting.INSTANCE.getDbBezDatumBis(), format.format(calendarBis.getTime()));
+                }
+                indexOf++;
+            }
+        } catch (IOException | ParseException | JSONException ex) {
+            JOptionPane.showMessageDialog(null,
+                    ex.toString(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        return myArray;
+    }
+
 }

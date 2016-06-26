@@ -39,7 +39,7 @@ public class MongoDBController {
         MongoClient mongoClient;
         mongoClient = null;
         try {
-            mongoClient = new MongoClient(new ServerAddress(),
+            mongoClient = new MongoClient(new ServerAddress(mySetting.getServerip(), 27017),
                     Arrays.asList(MongoCredential.createCredential(mySetting.getDbUsername(), mySetting.getDbName(), mySetting.getDbPassword().toCharArray())),
                     MongoClientOptions.builder().serverSelectionTimeout(1000).build());
             MongoDatabase db = mongoClient.getDatabase(mySetting.getDbName());
