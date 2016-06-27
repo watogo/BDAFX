@@ -213,9 +213,15 @@ public class ScrapinghubController {
                 String myDateBisString = "";
 
                 for (int i = 0; i < myJSONArray.length(); i++) {
-                    myDateVonStringArray.add(myJSONArray.getJSONObject(i).get(Setting.INSTANCE.getDbBezDatumVon()).toString() + "~");
-                    myDateBisStringArray.add(myJSONArray.getJSONObject(i).get(Setting.INSTANCE.getDbBezDatumBis()).toString() + "~");
-
+                    JSONObject current = myJSONArray.getJSONObject(i);
+                    
+                    try{
+                        myDateVonStringArray.add(current.get(Setting.INSTANCE.getDbBezDatumVon()).toString() + "~");
+                        myDateBisStringArray.add(current.get(Setting.INSTANCE.getDbBezDatumBis()).toString() + "~");
+                    }catch(Exception e){
+                        myJSONArray.remove(i);
+                        i -= 1;
+                    }
                     //myDateVonString += myJSONArray.getJSONObject(i).get(Setting.INSTANCE.getDbBezDatumVon()).toString() + "~";
                     //myDateBisString += myJSONArray.getJSONObject(i).get(Setting.INSTANCE.getDbBezDatumBis()).toString() + "~";
                 }
@@ -237,8 +243,6 @@ public class ScrapinghubController {
                         }else{
                             myJSONArray = runPythonScript(myJSONArray, myDateVonString, myDateBisString, 0);
                         }
-                        
-                        
                         
                         myDateVonString = ""; //reset
                         myDateBisString = "";//reset
