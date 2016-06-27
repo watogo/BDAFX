@@ -1,12 +1,16 @@
 package ch.hslu.bda.watogo.controller;
 
 import ch.hslu.bda.watogo.model.Setting;
+import java.awt.Frame;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -107,6 +111,7 @@ public class SettingsController implements Initializable {
 
     /**
      * Speichert die Einstellungen in die 'settings.properties' Datei.
+     *
      * @param event - Event der ausgelöst wird.
      */
     @FXML
@@ -140,9 +145,9 @@ public class SettingsController implements Initializable {
                     System.out.println("IOException!!!!");
                 }
             }
-            
+
             ((Node) (event.getSource())).getScene().getWindow().hide();
-            
+
         }
     }
 
@@ -182,19 +187,37 @@ public class SettingsController implements Initializable {
     public void handleTryConnection() {
         Boolean reachable = false;
         try {
-            reachable = InetAddress.getByName(this.textFieldSerIp.getText()).isReachable(5000);
+            if(isReachableMy(this.textFieldSerIp.getText(), Integer.parseInt(this.textFieldPort.getText()), 2000)){
+                reachable = true;
+            }
         } catch (Exception e) {
             System.out.println("Fehler ist aufgetreten beim der Server Ip");
         }
-
-        if (reachable) {
-            JOptionPane.showMessageDialog(null,
+        
+        Frame myFrame = new Frame();
+        myFrame.setAlwaysOnTop(true);
+        
+        if (reachable){
+            JOptionPane.showMessageDialog(myFrame,
                     "Der Server ist erreichbar");
-        } else {
-            JOptionPane.showMessageDialog(null,
-                    "Ungültige Server IP",
+        }else{
+            JOptionPane.showMessageDialog(myFrame,
+                    "Ungültige Server IP oder Port",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    
+    private boolean isReachableMy(String addr, int openPort, int timeOutMillis) {
+    try {
+        try (Socket soc = new Socket()) {
+            soc.connect(new InetSocketAddress(addr, openPort), timeOutMillis);
+        }
+        return true;
+    } catch (IOException ex){
+        return false;
+    }
+}
+    
 }

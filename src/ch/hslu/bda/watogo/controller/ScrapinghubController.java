@@ -3,6 +3,7 @@ package ch.hslu.bda.watogo.controller;
 import ch.hslu.bda.watogo.util.DateParser;
 import ch.hslu.bda.watogo.model.Job;
 import ch.hslu.bda.watogo.model.Setting;
+import java.awt.Frame;
 import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class ScrapinghubController {
     private final String projectID;
     private ObservableList<Job> jobData = FXCollections.observableArrayList();
     private ObservableList<String> spiderList = FXCollections.observableArrayList();
-    private static final String[] zeitstandard = {"UTC-12",
+    private static final Object[] zeitstandard = {"UTC-12",
         "UTC-11",
         "UTC-10",
         "UTC-9",
@@ -201,9 +202,10 @@ public class ScrapinghubController {
             if (Setting.INSTANCE.getIsParseDate().equals("1")) {
 
                 myZeitList.setSelectedIndex(13); //UTC+1 per default wählen
-
-                JOptionPane.showMessageDialog(null, myZeitList, "Bitte Zeitstandard auswählen", JOptionPane.QUESTION_MESSAGE);
-
+                Frame myFrame = new Frame();
+                myFrame.setAlwaysOnTop(true);
+                JOptionPane.showMessageDialog(myFrame, myZeitList, "Bitte Zeitstandard auswählen", JOptionPane.QUESTION_MESSAGE);
+                
                 ArrayList<String> myDateVonStringArray = new ArrayList<>();
                 ArrayList<String> myDateBisStringArray = new ArrayList<>();
 
@@ -224,15 +226,19 @@ public class ScrapinghubController {
                     
                     if(((i % 799 == 0)&&(i!= 0)) || (i == myDateVonStringArray.size()-1)){ 
                         
-                        System.out.println("Hallo: "+i);
-                        
                         //800 Elemente
                         myDateVonString = myDateVonString.replace(' ', ';');
                         myDateVonString = myDateVonString.substring(0, myDateVonString.length() - 1); //letztes zeichen abschneiden
                         myDateBisString = myDateBisString.replace(' ', ';');
                         myDateBisString = myDateBisString.substring(0, myDateBisString.length() - 1); //letztes zeichen abschneiden
-                
-                        myJSONArray = runPythonScript(myJSONArray, myDateVonString, myDateBisString, i-799);
+                        
+                        if(i > 799){
+                            myJSONArray = runPythonScript(myJSONArray, myDateVonString, myDateBisString, i-799);
+                        }else{
+                            myJSONArray = runPythonScript(myJSONArray, myDateVonString, myDateBisString, 0);
+                        }
+                        
+                        
                         
                         myDateVonString = ""; //reset
                         myDateBisString = "";//reset
